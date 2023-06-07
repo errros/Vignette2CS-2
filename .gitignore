@@ -6,7 +6,8 @@ target/
 
 !**/src/main/resources/application.properties
 
-**/src/main/resources/
+/src/main/resources/
+
 
 !**/src/main/resources/application.properties
 !**/src/main/resources/META-INF/persistence.xml

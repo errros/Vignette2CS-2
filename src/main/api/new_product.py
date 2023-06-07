@@ -26,9 +26,9 @@ start = time.time()
 directoryPath = "./file_with_segmentations"
 
 ocr_model = PaddleOCR(lang='fr', use_angle_cls=True, show_log=False)
-model = YOLO('best_ever.pt')
-model_champs_NAME_DATE_DOS = YOLO('best_train6.pt')
-model_champs_PPA_FORM = YOLO('best_train4.pt')
+model = YOLO('./best_ever.pt')
+model_champs_NAME_DATE_DOS = YOLO('./best_train6.pt')
+model_champs_PPA_FORM = YOLO('./best_train4.pt')
 
 classes_names = {'0': 'Forme', '1': 'Dossage', '2': 'PPA', '3': 'Date', '4': 'Name'}
 
