@@ -52,7 +52,7 @@ public class StockDAO extends DAORepository<Stock,Long>{
 
     @Override
     public Set<Stock> getAll() {
-        List<Stock> Stocks = em.createQuery("SELECT c FROM Stock s").getResultList();
+        List<Stock> Stocks = em.createQuery("SELECT c FROM Stock c").getResultList();
         return Stocks.stream().collect(Collectors.toSet());
     }
 

@@ -88,6 +88,7 @@ public static final NotificationService notificationService = new NotificationSe
     public static final String Parametres3View = "fxml/Parametres3View.fxml";
     public static final String FournisseursView = "fxml/FournisseursView.fxml";
     public static final String AjouterProduitDialogView = "fxml/AjouterProduitDialog.fxml";
+    public static final String AjouterStockDialogView = "fxml/AjouterStockDialog.fxml";
     public static final String AjouterFournisseurDialogView = "fxml/AjouterFournisseurDialog.fxml";
     public static final String AjouterAchat1DialogView = "fxml/AjouterAchat1Dialog.fxml";
     public static final String AjouterAchat2DialogView = "fxml/AjouterAchat2Dialog.fxml";
@@ -173,6 +174,8 @@ public static final NotificationService notificationService = new NotificationSe
 
         ventesList.addAll(venteService.getAll());
         venteService.sortRowsByLastTimeAdded();
+
+        stockList.addAll(stockService.getAll());
 
         notificationsList.addAll(notificationService.getAll());
         notificationService.sortRowsByLastTimeAdded();

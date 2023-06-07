@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="468.0" prefWidth="695.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wrmanager.wrmanagerfx.controllers.StockViewController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="516.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wrmanager.wrmanagerfx.controllers.StockViewController">
    <children>
       <GridPane alignment="CENTER" layoutX="10.0" layoutY="10.0" styleClass="SecondBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <columnConstraints>
@@ -63,7 +64,7 @@
                                           </AnchorPane>
                                           <VBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="84.0" spacing="5.0" GridPane.columnIndex="1">
                                              <children>
-                                                <Label styleClass="TopLabelCards" text="Nombre De Produits">
+                                                <Label styleClass="TopLabelCards" text="Nombre De Fournisseurs">
                                                    <VBox.margin>
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
@@ -82,7 +83,7 @@
                                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                                  </GridPane.margin>
                                  <effect>
-                                    <DropShadow height="1.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
+                                    <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
                                        <color>
                                           <Color opacity="0.25" />
                                        </color>
@@ -100,7 +101,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                         <AnchorPane fx:id="icon1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <AnchorPane fx:id="icon1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <GridPane.margin>
                                                 <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />
                                              </GridPane.margin>
@@ -144,7 +145,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                         <AnchorPane fx:id="icon2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <AnchorPane fx:id="icon2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <GridPane.margin>
                                                 <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />
                                              </GridPane.margin>
@@ -188,7 +189,7 @@
                                           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                        </rowConstraints>
                                        <children>
-                                         <AnchorPane fx:id="icon3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <AnchorPane fx:id="icon3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <GridPane.margin>
                                                 <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />
                                              </GridPane.margin>
@@ -235,20 +236,20 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                <children>
-                  <TableView fx:id="StockTable" editable="true" layoutX="20.0" layoutY="17.0" prefHeight="310.0" prefWidth="678.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="17.0">
+                  <TableView fx:id="StocksTable" layoutX="10.0" layoutY="14.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
-                     <padding>
-                        <Insets right="-1.0" top="-1.0" />
-                     </padding>
                      <effect>
-                        <DropShadow height="31.0" radius="15.0" width="31.0">
+                        <DropShadow height="44.39" radius="24.0375" width="53.76">
                            <color>
                               <Color opacity="0.25" />
                            </color>
                         </DropShadow>
                      </effect>
+                     <padding>
+                        <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                     </padding>
                   </TableView>
                </children>
             </AnchorPane>
@@ -269,7 +270,7 @@
                      <children>
                         <AnchorPane prefHeight="30.0" prefWidth="298.0">
                            <children>
-                              <TextField fx:id="SearchBarTextField" layoutY="6.0" maxHeight="30.0" minHeight="-Infinity" prefHeight="35.0" prefWidth="309.0" promptText="Recherche par Designation , codebarre" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="6.0">
+                              <TextField fx:id="SearchBarTextField" layoutY="6.0" maxHeight="30.0" minHeight="-Infinity" prefHeight="35.0" prefWidth="309.0" promptText="Recherche par nom , codebare ou categorie" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="6.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
@@ -288,6 +289,16 @@
                            </children>
                         </AnchorPane>
                         <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="159.0" spacing="10.0" GridPane.columnIndex="2" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
+                           <children>
+                              <MFXButton fx:id="AjouterButton" buttonType="RAISED" graphicTextGap="7.0" onAction="#AjouterButtonOnAction" prefHeight="40.0" styleClass="AjouterButton" text="Ajouter Stock">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" />
+                                 </graphic>
+                                 <font>
+                                    <Font name="System Bold" size="15.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
