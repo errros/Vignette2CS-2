@@ -1,0 +1,48 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+!**/src/main/resources/application.properties
+
+**/src/main/resources/
+
+!**/src/main/resources/application.properties
+!**/src/main/resources/META-INF/persistence.xml
+
+
+/src/main/api/best_ever.pt
+
+/src/main/api/best_train4.pt
+
+/src/main/api/best_train6.pt
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
