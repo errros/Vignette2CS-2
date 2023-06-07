@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class CaptureCameraController implements Initializable {
 
-    private static final String CAMERA_IP = "http://192.168.43.64:8080/video";
+    private static final String CAMERA_IP = "http://192.168.43.1:8080/video";
     public Mat frame;
     public Image image;
     public static Thread thread;

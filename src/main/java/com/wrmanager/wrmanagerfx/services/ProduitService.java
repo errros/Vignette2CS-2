@@ -83,7 +83,7 @@ return         (char) (cdigit + '0');
 
        var ret=   produitDAO.update(produit);
        produitsViewController.getProduitsTable().refresh();
-       stockViewController.getStockTable().refresh();
+       stockViewController.getProduitsTable().refresh();
 
        return ret;
      }

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="800.0" minWidth="420.0" prefHeight="800.0" prefWidth="420.0" styleClass="Dialog" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wrmanager.wrmanagerfx.controllers.AjouterStockDialogController">
+   <content>
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="420.0" minHeight="750.0" minWidth="410.0" prefHeight="750.0" prefWidth="420.0" style="-fx-background-color: transparent;">
+         <children>
+            <AnchorPane layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="577.0" prefWidth="408.0" style="-fx-background-color: white; -fx-background-radius: 20;" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+               <children>
+                  <AnchorPane layoutX="4.0" layoutY="5.0" prefHeight="42.0" prefWidth="412.0" styleClass="TopAnchor" AnchorPane.bottomAnchor="710.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="-6.0" AnchorPane.topAnchor="-6.0">
+                     <children>
+                        <Label fx:id="titleLabel" alignment="CENTER" layoutX="44.0" layoutY="6.0" text="Ajouter un Produit au stock" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <effect>
+                        <DropShadow height="1.0" offsetY="3.0" radius="0.0" width="0.0">
+                           <color>
+                              <Color opacity="0.25" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                  </AnchorPane>
+                  <VBox fx:id="vbox" layoutX="10.0" layoutY="70.0" prefHeight="600.0" prefWidth="400.0" spacing="8.0" AnchorPane.bottomAnchor="-26.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="60.0">
+                     <children>
+                        <Label fx:id="Cod" text="Désignation :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <HBox>
+                           <children>
+                              <TextField fx:id="designationTfd" prefHeight="35.0" prefWidth="388.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                           </children>
+                        </HBox>
+                        <Label text="Dosage :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="dosageTfd" prefHeight="35.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                        <Label text="Form :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="formTfd" prefHeight="35.0" prefWidth="346.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                        <Label text="PPA :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="ppaTfd" prefHeight="35.0" prefWidth="346.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                        <Label text="Date D'Expiration :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <MFXDatePicker fx:id="EndDatePicker" prefHeight="18.0" prefWidth="366.0" />
+                        <Label text="Lot :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="lotTfd" prefHeight="35.0" prefWidth="346.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                        <Label text="Qty :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="qtyTfd" prefHeight="35.0" prefWidth="346.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                        <Label text="Fournisseur :">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="fournisseurTfd" prefHeight="35.0" prefWidth="346.0" style="-fx-border-color: rgba(35, 140, 131, 0.6);" styleClass="DialogTextField" />
+                        <HBox alignment="CENTER" prefHeight="32.0" prefWidth="402.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <Button fx:id="CameraButton" graphicTextGap="0.0" mnemonicParsing="false" onAction="#CameraButtonOnAction" style="-fx-background-color: transparent;" text=" ">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#238c83" glyphName="CAMERA" size="24" styleClass="AddIcons" />
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="buttonsHb" alignment="CENTER" prefHeight="74.0" prefWidth="284.0" spacing="20.0">
+                           <children>
+                              <MFXButton fx:id="AjouterEtResterButton" buttonType="RAISED" depthLevel="LEVEL3" onAction="#AjouterEtResterButtonOnAction" styleClass="DialogButtons" text="Ajouter et rester" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton fx:id="AjouterButton" buttonType="RAISED" depthLevel="LEVEL3" onAction="#AjouterButtonOnAction" styleClass="DialogButtons" text="Ajouter" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton fx:id="AnnulerButton" buttonType="RAISED" depthLevel="LEVEL3" onAction="#AnnulerButtonOnAction" styleClass="DialogAnnluerButton" text="Annuler" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold" size="17.0" />
+                                 </font>
+                                 <effect>
+                                    <Shadow>
+                                       <color>
+                                          <Color red="0.7568627595901489" green="0.15294118225574493" blue="0.15294118225574493" />
+                                       </color>
+                                    </Shadow>
+                                 </effect>
+                              </MFXButton>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets left="5.0" right="7.0" />
+                     </padding>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </AnchorPane>
+         </children>
+         <effect>
+            <DropShadow height="31.41" radius="14.955" width="30.41">
+               <color>
+                  <Color opacity="0.25" />
+               </color>
+            </DropShadow>
+         </effect>
+         <padding>
+            <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </AnchorPane>
+   </content>
+</DialogPane>

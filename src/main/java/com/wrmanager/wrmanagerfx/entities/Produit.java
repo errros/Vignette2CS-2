@@ -72,7 +72,7 @@ public class Produit {
     private List<Stock> stocks = new ArrayList<>();
 
 
-    private URI imagePath;
+    //private URI imagePath;
 
     public void addCategorie(Categorie categorie){
         this.setCategorie(categorie);
@@ -117,7 +117,6 @@ public class Produit {
                 ", creeLe=" + creeLe +
                 ", categorie=" + categorie +
                 ", favoris=" + favoris +
-                ", imagePath=" + imagePath +
                 '}';
     }
 }

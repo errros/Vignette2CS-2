@@ -1,34 +1,43 @@
 package com.wrmanager.wrmanagerfx.controllers;
+
 import com.wrmanager.wrmanagerfx.Constants;
 import com.wrmanager.wrmanagerfx.Main;
-import com.wrmanager.wrmanagerfx.entities.Fournisseur;
-import com.wrmanager.wrmanagerfx.entities.Produit;
+import com.wrmanager.wrmanagerfx.entities.*;
+import com.wrmanager.wrmanagerfx.entities.Stock;
+import com.wrmanager.wrmanagerfx.models.SystemMeasure;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTableView;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import javax.swing.text.TabableView;
+import javax.persistence.RollbackException;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
@@ -36,6 +45,9 @@ import static com.wrmanager.wrmanagerfx.Constants.*;
 import static com.wrmanager.wrmanagerfx.controllers.SideBarController.prefs;
 
 public class StockViewController implements Initializable {
+
+    @FXML
+    private MFXButton AjouterButton;
 
     @FXML
     private Label Label1;
@@ -48,15 +60,19 @@ public class StockViewController implements Initializable {
 
     @FXML
     private Label Label4;
+
+    @FXML
+    private TableView<Stock> StocksTable;
+
+    public TableView<Stock> getStocksTable() {
+        return StocksTable;
+    }
+
     @FXML
     private TextField SearchBarTextField;
 
     @FXML
-    private TableView<Produit> StockTable;
-
-    public TableView<Produit> getStockTable() {
-        return StockTable;
-    }
+    private MFXButton TelechargerButton;
 
     @FXML
     private AnchorPane icon;
@@ -70,95 +86,207 @@ public class StockViewController implements Initializable {
     @FXML
     private AnchorPane icon3;
 
-
-    TableColumn CodeBarreColumn = new TableColumn("Code Barre");
-    TableColumn DesignationColumn = new TableColumn("Désignation");
-    TableColumn QuantiteColumn = new TableColumn("Qty");
-    TableColumn PrixventeColumn = new TableColumn("Prix de Vente");
-    TableColumn PrixAchatColumn = new TableColumn("Prix d'Achat");
-    TableColumn DateColumn = new TableColumn("Date de péremption");
-    TableColumn<Produit, Void> ActionsColumn = new TableColumn("Actions");
+    GridPane root;
 
 
-    private Predicate<Produit> createFilteringPredicate(String searchText){
-        return produit -> {
+
+
+    TableColumn lotColumn = new TableColumn("Lot");
+    TableColumn designationColumn = new TableColumn("Designation");
+    TableColumn dosageColumn = new TableColumn("Dosage");
+    TableColumn formColumn = new TableColumn("Forme");
+    TableColumn fournisseurColumn = new TableColumn("Fournisseur");
+    TableColumn ppaColumn =new TableColumn("PPA");
+    TableColumn qtyColumn =new TableColumn("Qty");
+    TableColumn<Stock, Void> ActionsColumn = new TableColumn("Actions");
+
+
+
+
+
+    @FXML
+    void AjouterButtonOnAction(ActionEvent event) {
+        try {
+            SideBarController.BlurBackground();
+            FXMLLoader fxmlLoader =new FXMLLoader(Main.class.getResource(Constants.AjouterStockDialogView));
+            DialogPane AjouterStockDialog= fxmlLoader.load();
+            AjouterStockDialog.getStylesheets().add(
+                    Main.class.getResource("images/dialog.css").toExternalForm());
+            AjouterStockDialog.setStyle(
+                    "primary:"+prefs.get("PrimaryColor","rgba(35, 140, 131, 1)")
+                            .replaceAll("0x","#")
+                            +";"+"secondary:"+prefs.get("SecondaryColor","#C8E2E0")
+                            .replaceAll("0x","#")+";");
+            AjouterStockDialogController ajouterStockDialogController=fxmlLoader.getController();
+            Dialog<ButtonType> dialog =new Dialog<>();
+            dialog.setDialogPane(AjouterStockDialog);
+            ajouterStockDialogController.setDialog(dialog);
+            dialog.initStyle(StageStyle.TRANSPARENT);
+            AjouterStockDialog.getScene().setFill(Color.rgb(0,0,0,0));
+            ajouterStockDialogController.setDialog(dialog);
+            dialog.showAndWait();
+            SideBarController.DeleteBlurBackground();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+
+
+    private Predicate<Stock> createFilteringPredicate(String searchText){
+        return Stock -> {
             if (searchText == null || searchText.isEmpty()) return true;
-            return searchFindsProduit(produit,searchText);
+            return searchFindsStock(Stock,searchText);
         };
     }
 
-    private boolean searchFindsProduit(Produit produit, String searchText){
-        return (produit.getCodeBarre().toLowerCase().contains(searchText.toLowerCase())) ||
-                (produit.getDesignation().toLowerCase().contains(searchText.toLowerCase()));
+    private boolean searchFindsStock(Stock Stock, String searchText){
+        return (Stock.getProduit().getDesignation().toLowerCase().contains(searchText.toLowerCase()));
     }
 
-    static public void sortRowsByLastTimeAdded(){
-//        StockViewController.produits.sort(Comparator.comparing(Produit::getCreeLe).reversed());
-    }
 
+
+
+
+
+    private void divideTableWidthOnColumns(){
+
+        Double size = Double.valueOf(StocksTable.getColumns().size());
+
+        //calculate the size of each column
+        double sizeCoulumn = 1 / (size);
+        //set the size of each column
+        lotColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        lotColumn.setSortable(true);
+        designationColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        dosageColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        formColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        ppaColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        qtyColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        ActionsColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply((sizeCoulumn*1.5)));
+
+
+    }
 
     private void setupValueFactories(){
 
-
         //define the cells factory
-        CodeBarreColumn.setCellValueFactory(
-                new PropertyValueFactory<Produit, String>("codeBarre"));
-        DesignationColumn.setCellValueFactory(
-                new PropertyValueFactory<Produit, String>("designation"));
-        QuantiteColumn.setCellValueFactory(
-                new PropertyValueFactory<Produit, Integer>("qtyTotale"));
-        PrixventeColumn.setCellValueFactory(
-                new PropertyValueFactory<Produit, Integer>("prixVenteUnite"));
-        PrixAchatColumn.setCellValueFactory(
-                new PropertyValueFactory<Produit, Integer>("prixAchatUnite"));
-        DateColumn.setCellValueFactory(
-                new PropertyValueFactory<Produit, Date>("datePeremption"));
+        lotColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, String>("codeBarre"));
+        designationColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, String>("designation"));
+
+        formColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, SystemMeasure>("Forme"));
+        dosageColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, Integer>("Dosage"));
+
+        ppaColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, Integer>("PPA"));
+
+        qtyColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, Integer>("Qty"));
 
         setupActionsCellValueFactory();
+
 
     }
 
 
-    private void setupActionsCellValueFactory() {
-        Callback<TableColumn<Produit, Void>, TableCell<Produit, Void>> cellFactory = new Callback<TableColumn<Produit, Void>, TableCell<Produit, Void>>() {
-            @Override
-            public TableCell<Produit, Void> call(final TableColumn<Produit, Void> param) {
-                final TableCell<Produit, Void> cell = new TableCell<Produit, Void>() {
 
-                    private final MFXButton bt1 = new MFXButton("");
+
+
+    private void setupActionsCellValueFactory() {
+        Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>> cellFactory = new Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>>() {
+            @Override
+            public TableCell<Stock, Void> call(final TableColumn<Stock, Void> param) {
+                final TableCell<Stock, Void> cell = new TableCell<Stock, Void>() {
+
+                    private final MFXButton trushBt = new MFXButton("");
+                    private final MFXButton editBt = new MFXButton("");
+
                     private final HBox hBox =new HBox();
 
 
                     {
-                        bt1.setStyle("-fx-background-color:rgba(0,0,0,0);");
-                        FontAwesomeIconView pencil =new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE_ALT);
-                        pencil.setFill(Color.valueOf(prefs.get("PrimaryColor","rgba(35, 140, 131, 1)")));
-                        pencil.setSize("22.0");
-                        bt1.setGraphic(pencil);
-                        bt1.setOnAction(event -> {
-                            Produit data = getTableView().getItems().get(getIndex());
-                            //// show the modification dialog
+                        trushBt.setStyle("-fx-background-color:rgba(0,0,0,0);");
+                        FontAwesomeIconView trush =new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                        trush.setSize("22.0");
+                        trush.setFill(Color.rgb(193,39,39));
+                        trushBt.setGraphic(trush);
+                        trushBt.setOnAction((ActionEvent event) -> {
+                            Stock data = getTableView().getItems().get(getIndex());
+
+                            //Show the dialog pane
                             try {
                                 SideBarController.BlurBackground();
-                                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Constants.ModifierStockDialogView));
-                                DialogPane ModifierProduitDialog = fxmlLoader.load();
-                                ModifierProduitDialog.getStylesheets().add(
+                                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Constants.OuiNonDialogView));
+                                DialogPane OuiNonDialog = fxmlLoader.load();
+                                OuiNonDialog.getStylesheets().add(
                                         Main.class.getResource("images/dialog.css").toExternalForm());
-                                ModifierProduitDialog.setStyle(
+                                OuiNonDialog.setStyle(
                                         "primary:"+prefs.get("PrimaryColor","rgba(35, 140, 131, 1)")
                                                 .replaceAll("0x","#")
                                                 +";"+"secondary:"+prefs.get("SecondaryColor","#C8E2E0")
                                                 .replaceAll("0x","#")+";");
-                                ModifierStockDialogController modifierStockDialogController  = fxmlLoader.getController();
-
-                                modifierStockDialogController.setPassedProduit(data);
+                                OuiNonDialogController OuiNonDialogController = fxmlLoader.getController();
                                 Dialog<ButtonType> dialog = new Dialog<>();
-                                dialog.setDialogPane(ModifierProduitDialog);
-                                modifierStockDialogController.setDialog1(dialog);
+                                dialog.setDialogPane(OuiNonDialog);
+                                OuiNonDialogController.setDialog(dialog);
+                                OuiNonDialogController.TitleLabel.setText("Supprimer Stock");
+                                OuiNonDialogController.SubjectLabel.setText("Vous etes sur de la suppression de ce Stock ?");
+                                dialog.initStyle(StageStyle.TRANSPARENT);
+                                OuiNonDialog.getScene().setFill(Color.rgb(0, 0, 0, 0));
+                                dialog.showAndWait();
+                                if (dialog.getResult()==ButtonType.YES)
+                                {
+
+
+                                    StockService.delete(data);
+                                }
+                                SideBarController.DeleteBlurBackground();
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        });
+
+
+
+                        editBt.setStyle("-fx-background-color:rgba(0,0,0,0);");
+                        FontAwesomeIconView pencil =new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE_ALT);
+                        pencil.setFill(Color.valueOf(prefs.get("PrimaryColor","rgba(35, 140, 131, 1)")));
+                        pencil.setSize("19.0");
+                        editBt.setGraphic(pencil);
+                        editBt.setOnAction(event -> {
+                            Stock data = getTableView().getItems().get(getIndex());
+                            //// show the modification dialog
+                            try {
+                                SideBarController.BlurBackground();
+                                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Constants.AjouterStockDialogView));
+                                DialogPane AjouterStockDialog = fxmlLoader.load();
+                                AjouterStockDialog.getStylesheets().add(
+                                        Main.class.getResource("images/dialog.css").toExternalForm());
+                                AjouterStockDialog.setStyle(
+                                        "primary:"+prefs.get("PrimaryColor","rgba(35, 140, 131, 1)")
+                                                .replaceAll("0x","#")
+                                                +";"+"secondary:"+prefs.get("SecondaryColor","#C8E2E0")
+                                                .replaceAll("0x","#")+";");
+                                AjouterStockDialogController ajouterStockDialogController = fxmlLoader.getController();
+
+                                ajouterStockDialogController.setPassedStock(data);
+                                ajouterStockDialogController.setOnEditMode(true);
+                                Dialog<ButtonType> dialog = new Dialog<>();
+                                dialog.setDialogPane(AjouterStockDialog);
+                                ajouterStockDialogController.setDialog(dialog);
 
                                 dialog.initStyle(StageStyle.TRANSPARENT);
-                                ModifierProduitDialog.getScene().setFill(Color.rgb(0, 0, 0, 0));
-                                modifierStockDialogController.setDialog1(dialog);
+                                AjouterStockDialog.getScene().setFill(Color.rgb(0, 0, 0, 0));
+                                ajouterStockDialogController.setDialog(dialog);
                                 dialog.showAndWait();
                                 SideBarController.DeleteBlurBackground();
 
@@ -169,11 +297,19 @@ public class StockViewController implements Initializable {
 
                         });
 
-                        hBox.setSpacing(17);
-                        hBox.setPadding(new Insets(0,15,0,15));
+
+
+
+
+
+
+
+                        trushBt.setAlignment(Pos.TOP_CENTER);
+                        hBox.setSpacing(10);
+                        hBox.setPadding(new Insets(0,0,0,0));
                         hBox.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, new CornerRadii(0), Insets.EMPTY)));
                         hBox.setPadding(new Insets(0,0, 0,0));
-                        hBox.getChildren().addAll(bt1);
+                        hBox.getChildren().addAll(trushBt,editBt);
                         hBox.setAlignment(Pos.CENTER);
 
 
@@ -199,54 +335,48 @@ public class StockViewController implements Initializable {
 
     }
 
-    private void divideTableWidthOnColumns(){
-
-        Double size = Double.valueOf(StockTable.getColumns().size());
-
-        //calculate the size of each column
-        double sizeCoulumn = 1 / (size);
-        //set the size of each column
-        CodeBarreColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-        DesignationColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-        QuantiteColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-        PrixAchatColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-        PrixventeColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-        DateColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-        ActionsColumn.prefWidthProperty().bind(StockTable.widthProperty().multiply(sizeCoulumn));
-
-    }
-
-
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-        StockTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+    public void initialize(URL location, ResourceBundle resources) {
 
 
-        produitsList.addListener(new ListChangeListener<Produit>() {
-            @Override
-            public void onChanged(Change<? extends Produit> change) {
-                StockTable.refresh();
-                Label1.setText(String.valueOf(produitsList.size()));
-            }
-        });
+
+        StocksTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        //add columns to the table
+        StocksTable.getColumns().addAll(lotColumn,designationColumn,dosageColumn,formColumn,ppaColumn,qtyColumn,ActionsColumn);
 
 
-        FilteredList<Produit> filteredData = new FilteredList<>(produitsList);
+
+        //searchBarFilter(people, SearchBarTextField.textProperty(),StocksTable);
+
+
+        FilteredList<Stock> filteredData = new FilteredList<>(StocksList);
 
         SearchBarTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 filteredData.setPredicate(createFilteringPredicate(newValue))
         );
 
 
-        StockTable.getColumns().addAll(CodeBarreColumn,DesignationColumn,QuantiteColumn,PrixventeColumn,PrixAchatColumn,DateColumn,ActionsColumn);
+        StocksTable.setItems(filteredData);
         setupValueFactories();
         divideTableWidthOnColumns();
-        StockTable.setItems(filteredData);
+        // added by rabah
+        //
+
     }
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
