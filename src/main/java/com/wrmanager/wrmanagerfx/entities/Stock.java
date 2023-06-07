@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
@@ -27,6 +29,11 @@ public class Stock {
     private String lot;
 
 
+    @Builder.Default
+    @Basic(optional = false)
+    private Timestamp creeLe  = Timestamp.valueOf(LocalDateTime.now());;
+
+
 
     @Basic(optional = false)
     @Column(nullable = false)
@@ -35,7 +42,7 @@ public class Stock {
 
 
     @Basic(optional = false)
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private Date expirationDate;
 
 

@@ -30,6 +30,8 @@ public class Constants {
     public static ObservableList<Vendeur> vendeursList = FXCollections.observableArrayList();
     public static ObservableList<Notification> notificationsList = FXCollections.observableArrayList();
 
+     public static final ObservableList<Stock> stockList = FXCollections.observableArrayList();
+
 
     //Entities constants
 
@@ -61,6 +63,7 @@ public class Constants {
     public static final NotificationDAO notificationDAO = new NotificationDAO();
 
 
+    public static final StockService stockService = new StockService();
     public static final AchatService achatService = new AchatService();
 public static final FournisseurService fournisseurService = new FournisseurService();
 public static final CommandeService commandeService = new CommandeService();

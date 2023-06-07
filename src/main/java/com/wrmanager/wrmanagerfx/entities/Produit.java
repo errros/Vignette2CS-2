@@ -38,10 +38,10 @@ public class Produit {
 
 //NOM
     @Basic(optional = false)
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false)
     private String designation;
 
- private String forme;
+    private String forme;
 
 
 
@@ -50,7 +50,6 @@ public class Produit {
 
     @Builder.Default
     @Basic(optional = false)
-    @Column(nullable = false)
     private Timestamp creeLe  = Timestamp.valueOf(LocalDateTime.now());;
 
 
@@ -72,7 +71,6 @@ public class Produit {
     private List<Stock> stocks = new ArrayList<>();
 
 
-    //private URI imagePath;
 
     public void addCategorie(Categorie categorie){
         this.setCategorie(categorie);
