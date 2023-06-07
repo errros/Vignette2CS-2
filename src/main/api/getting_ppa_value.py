@@ -43,7 +43,7 @@ def check_contain_only_num(input_string) :
   return flag
 
 
-def getting_ppa_value (ppa) : 
+def getting_ppa_value_from_cases (ppa) :
   # ppa is the OCR OUTPUT for Champ PPA
   if len(ppa)>0 :   
     for p in ppa :
@@ -159,20 +159,16 @@ def getting_ppa_value (ppa) :
 
 
 
-
-result = ocr_model.ocr("./file_with_segmentations/PPA.png", cls=True)
-
-ppa = [res[1][0] for res in result[0]]
-
-print("hada howa ppa 9bel extraction {}".format(ppa))
-
-ppa_value  = getting_ppa_value(ppa)
-print(ppa_value)
-if ppa_value :
-  if type(ppa_value)==float : 
-    print('ppa_value : ' +str(ppa_value))
-  elif check_contain_only_num(ppa_value):
-    ppa_value  = float(ppa_value)
-    print('ppa_value : ' +str(ppa_value))
-  else : print('Invalid PPA')
-else : print('nothing found')
+def get_ppa_value():
+  try:
+    result = ocr_model.ocr("./file_with_segmentations/PPA.png", cls=True)
+    ppa = [res[1][0] for res in result[0]]
+    ppa_value = getting_ppa_value_from_cases(ppa)
+    #ensure french language numbers taken in consideration
+    ppa_value = ppa_value.replace(",",".")
+    if check_contain_only_num(ppa_value):
+      return float(ppa_value)
+    else:
+      return 0.0
+  except:
+    return 0.0

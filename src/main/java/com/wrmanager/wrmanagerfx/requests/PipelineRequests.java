@@ -2,11 +2,10 @@ package com.wrmanager.wrmanagerfx.requests;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.wrmanager.wrmanagerfx.models.StockDTO;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -16,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class PipelineRequests {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             String responseBody = sendPostRequest(httpClient, url, requestBody);
             //System.out.println("response body " + responseBody);
-            var responseList = parseResponseJson(responseBody);
+            var responseList = parseProductResponseJson(responseBody);
             //System.out.println(responseList);
             return responseList;
 
@@ -46,8 +46,59 @@ public class PipelineRequests {
       return new ArrayList<>();
     }
 
+    public static StockDTO getStockFromImage(String path) {
+        String url = "http://127.0.0.1:8000/stock";
+        String requestBody = "{ \"path\": \"" + path + "\" }";
 
-    private static List<String> parseResponseJson(String responseBody) {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            String responseBody = sendPostRequest(httpClient, url, requestBody);
+            //System.out.println("response body " + responseBody);
+            var responseList = parseStockResponseJson(responseBody);
+            //System.out.println(responseList);
+            return responseList;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+      return null;
+    }
+
+    private static StockDTO parseStockResponseJson(String responseBody) {
+
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode responseJson = mapper.readTree(responseBody);
+
+            Integer productId = responseJson.get("product_id").asInt();
+
+            Float ppa = (float) responseJson.get("ppa").asDouble();
+
+            String lot = responseJson.get("lot").asText();
+
+
+            java.sql.Date date = Date.valueOf(responseJson.get("date").asText());
+
+
+            var stock = StockDTO.builder().product_id(Long.valueOf(productId)).ppa(ppa).lot(lot).date(date).build();
+
+            System.out.println(stock);
+
+            return stock;
+
+ } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+
+
+    }
+
+
+    private static List<String> parseProductResponseJson(String responseBody) {
         List<String> values = new ArrayList<>();
 
         try {

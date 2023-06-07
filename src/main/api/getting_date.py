@@ -3,6 +3,7 @@ import os  # folder directory navigation
 import concurrent.futures
 from paddleocr import PaddleOCR
 
+from dateutil import parser
 
 ocr_model = PaddleOCR(lang='fr', use_angle_cls=True, show_log=False)
 def symbol(part , sym):
@@ -80,20 +81,37 @@ def getting_date(d):
 # HOW TO USE IT 
 #date is the OCR output , predict te3 walid f Notebook
 #returns a key and value , Key can be 'Lot' for LOT , DDP for peremption or exp or ddp , DDF for fabrication or ddf
-result = ocr_model.ocr("./file_with_segmentations/Date.png", cls=True)
-date = [res[1][0] for res in result[0]]
-print(date)
 
-for d in date:
-  if getting_date(d) is None:
+def get_lot_date():
+  lot = ""
+  ddp = ""
+
+  try:
+    result = ocr_model.ocr("./file_with_segmentations/Date.png", cls=True)
+
+    date = [res[1][0] for res in result[0]]
+    #print(date)
+
+    for d in date:
+      if getting_date(d) is None:
+        pass
+      else:
+          key , value = getting_date(d)
+          if '/' in value:
+            parts = value.split('/')
+            if len(parts)>1 :
+              if len(parts[1]) > 0 and len(parts[1]) < 3:
+                  parts[1] = '20' + parts[1]
+                  value = '/'.join(parts)
+
+          if key == "DDP":
+            #print("value ta3 DDP {}".format(ddp))
+            ddp = parser.parse(value, dayfirst=True, fuzzy=True).date()
+          if key == "lot":
+            #print("value ta3 lot {}".format(lot))
+            lot = value
+          #print(key + " " + value)
+
+  except:
     pass
-  else:
-      key , value = getting_date(d)
-      if '/' in value:
-        parts = value.split('/')
-        if len(parts)>1 : 
-          if len(parts[1]) > 0 and len(parts[1]) < 3:
-              parts[1] = '20' + parts[1]
-              value = '/'.join(parts)
-
-      print(key + ' : ' + value)
+  return lot,ddp
