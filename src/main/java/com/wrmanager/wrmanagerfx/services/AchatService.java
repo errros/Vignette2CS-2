@@ -71,7 +71,7 @@ public class AchatService {
 
 
         achatsViewController.getAchatsTable().refresh();
-        stockViewController.getProduitsTable().refresh();
+        stockViewController.getStocksTable().refresh();
         produitsViewController.getProduitsTable().refresh();
     return ret;
     }
@@ -84,7 +84,7 @@ public class AchatService {
         achatsList.remove(achat);
 
       achatsViewController.getAchatsTable().refresh();
-      stockViewController.getProduitsTable().refresh();
+      stockViewController.getStocksTable().refresh();
 
     }
 

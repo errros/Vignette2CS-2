@@ -73,7 +73,7 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Label>
-                        <MFXDatePicker fx:id="EndDatePicker" prefHeight="18.0" prefWidth="366.0" />
+                        <MFXDatePicker fx:id="DatePicker" prefHeight="18.0" prefWidth="366.0" />
                         <Label text="Lot :">
                            <font>
                               <Font name="System Bold" size="14.0" />

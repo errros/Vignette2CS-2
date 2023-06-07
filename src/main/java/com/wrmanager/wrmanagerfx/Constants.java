@@ -175,6 +175,8 @@ public static final NotificationService notificationService = new NotificationSe
         ventesList.addAll(venteService.getAll());
         venteService.sortRowsByLastTimeAdded();
 
+        stockList.addAll(stockService.getAll());
+
         notificationsList.addAll(notificationService.getAll());
         notificationService.sortRowsByLastTimeAdded();
 

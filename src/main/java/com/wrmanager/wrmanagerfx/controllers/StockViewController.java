@@ -5,6 +5,7 @@ import com.wrmanager.wrmanagerfx.Main;
 import com.wrmanager.wrmanagerfx.entities.*;
 import com.wrmanager.wrmanagerfx.entities.Stock;
 import com.wrmanager.wrmanagerfx.models.SystemMeasure;
+import com.wrmanager.wrmanagerfx.services.StockService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -31,12 +32,18 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.StageStyle;
 import javafx.util.Callback;
+import lombok.Builder;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.RollbackException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
@@ -95,6 +102,7 @@ public class StockViewController implements Initializable {
     TableColumn designationColumn = new TableColumn("Designation");
     TableColumn dosageColumn = new TableColumn("Dosage");
     TableColumn formColumn = new TableColumn("Forme");
+    TableColumn dateColumn = new TableColumn("Date");
     TableColumn fournisseurColumn = new TableColumn("Fournisseur");
     TableColumn ppaColumn =new TableColumn("PPA");
     TableColumn qtyColumn =new TableColumn("Qty");
@@ -125,6 +133,7 @@ public class StockViewController implements Initializable {
             AjouterStockDialog.getScene().setFill(Color.rgb(0,0,0,0));
             ajouterStockDialogController.setDialog(dialog);
             dialog.showAndWait();
+            StocksTable.refresh();
             SideBarController.DeleteBlurBackground();
 
         } catch (IOException e) {
@@ -165,6 +174,7 @@ public class StockViewController implements Initializable {
         dosageColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
         formColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
         ppaColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
+        fournisseurColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
         qtyColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply(sizeCoulumn));
         ActionsColumn.prefWidthProperty().bind(StocksTable.widthProperty().multiply((sizeCoulumn*1.5)));
 
@@ -173,24 +183,39 @@ public class StockViewController implements Initializable {
 
     private void setupValueFactories(){
 
-        //define the cells factory
-        lotColumn.setCellValueFactory(
-                new PropertyValueFactory<Stock, String>("codeBarre"));
+
+
         designationColumn.setCellValueFactory(
                 new PropertyValueFactory<Stock, String>("designation"));
 
         formColumn.setCellValueFactory(
-                new PropertyValueFactory<Stock, SystemMeasure>("Forme"));
+                new PropertyValueFactory<Stock, String>("Forme"));
+
         dosageColumn.setCellValueFactory(
-                new PropertyValueFactory<Stock, Integer>("Dosage"));
+                new PropertyValueFactory<Stock, String>("Dosage"));
+
+        lotColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, String>("lot"));
+
+        dateColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, Date>("expirationDate"));
+
+
 
         ppaColumn.setCellValueFactory(
-                new PropertyValueFactory<Stock, Integer>("PPA"));
+                new PropertyValueFactory<Stock, Integer>("ppa"));
 
         qtyColumn.setCellValueFactory(
-                new PropertyValueFactory<Stock, Integer>("Qty"));
+                new PropertyValueFactory<Stock, Integer>("qty"));
+
+        fournisseurColumn.setCellValueFactory(
+                new PropertyValueFactory<Stock, String>("fournisseur"));
 
         setupActionsCellValueFactory();
+
+        setupdesCellValueFactory();
+        setupdosageCellValueFactory();
+        setupformCellValueFactory();
 
 
     }
@@ -245,7 +270,7 @@ public class StockViewController implements Initializable {
                                 {
 
 
-                                    StockService.delete(data);
+                                    stockService.delete(data);
                                 }
                                 SideBarController.DeleteBlurBackground();
 
@@ -337,6 +362,107 @@ public class StockViewController implements Initializable {
 
 
 
+
+
+    private void setupdesCellValueFactory() {
+        Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>> cellFactory = new Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>>() {
+            @Override
+            public TableCell<Stock, Void> call(final TableColumn<Stock, Void> param) {
+                final TableCell<Stock, Void> cell = new TableCell<Stock, Void>() {
+
+
+
+                    {
+
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText("");
+                        } else {
+                            setText(getTableView().getItems().get(getIndex()).getProduit().getDesignation());
+                        }
+                    }
+
+                };
+                return cell;
+            }
+        };
+
+
+        designationColumn.setCellFactory(cellFactory);
+
+    }
+
+
+    private void setupdosageCellValueFactory() {
+        Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>> cellFactory = new Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>>() {
+            @Override
+            public TableCell<Stock, Void> call(final TableColumn<Stock, Void> param) {
+                final TableCell<Stock, Void> cell = new TableCell<Stock, Void>() {
+
+
+
+                    {
+
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText("");
+                        } else {
+                            setText(getTableView().getItems().get(getIndex()).getProduit().getDosage());
+                        }
+                    }
+
+                };
+                return cell;
+            }
+        };
+
+
+        dosageColumn.setCellFactory(cellFactory);
+
+    }
+
+    private void setupformCellValueFactory() {
+        Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>> cellFactory = new Callback<TableColumn<Stock, Void>, TableCell<Stock, Void>>() {
+            @Override
+            public TableCell<Stock, Void> call(final TableColumn<Stock, Void> param) {
+                final TableCell<Stock, Void> cell = new TableCell<Stock, Void>() {
+
+
+
+                    {
+
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setText("");
+                        } else {
+                            setText(getTableView().getItems().get(getIndex()).getProduit().getForme());
+                        }
+                    }
+
+                };
+                return cell;
+            }
+        };
+
+
+        formColumn.setCellFactory(cellFactory);
+
+    }
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -344,14 +470,14 @@ public class StockViewController implements Initializable {
 
         StocksTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         //add columns to the table
-        StocksTable.getColumns().addAll(lotColumn,designationColumn,dosageColumn,formColumn,ppaColumn,qtyColumn,ActionsColumn);
+        StocksTable.getColumns().addAll(lotColumn,designationColumn,dosageColumn,formColumn,ppaColumn,fournisseurColumn,qtyColumn,ActionsColumn);
 
 
 
         //searchBarFilter(people, SearchBarTextField.textProperty(),StocksTable);
 
 
-        FilteredList<Stock> filteredData = new FilteredList<>(StocksList);
+        FilteredList<Stock> filteredData = new FilteredList<>(stockList);
 
         SearchBarTextField.textProperty().addListener((observable, oldValue, newValue) ->
                 filteredData.setPredicate(createFilteringPredicate(newValue))
