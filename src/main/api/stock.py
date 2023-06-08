@@ -51,6 +51,8 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
 
     new_ppa = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
     new_date = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
+    new_name = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
+    new_dossage = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
 
 
     # Create a copy of the original image
@@ -59,13 +61,14 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
     for mask, class_id in zip(masks, class_ids):
         if int(class_id.item()) in class_ids_to_output_from_ :
             class_name = classes_names[str(int(class_id.item()))]
+
             # print('i am outputing : '+str(class_name))
 
 
             # if class_name == 'Date' or class_name ==  'Name' or class_name == 'Dossage' :
             #  Check if class name is 'Date'
             if class_name == 'Date':
-
+                print("inside date")
                 # Convert mask to boolean mask
                 bool_mask_date = mask.to(torch.bool).numpy()
 
@@ -78,39 +81,56 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
                 # Set the pixels corresponding to the Date class to white in the copy of the original image
                 img_without_date_ppa[bool_mask_date] =  [0, 0, 0 , 0]
                 cv2.imwrite(f'./{directoryPath}/Date.png', new_date)
-                # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
-            if class_name == 'Forme':
 
+                print("saved date")
+                # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
+            if class_name == 'Name':
                 # Convert mask to boolean mask
-                bool_mask_date = mask.to(torch.bool).numpy()
+
+                print("inside name")
+                bool_mask_name = mask.to(torch.bool).numpy()
 
                 # Resize boolean mask to match img shape
-                bool_mask_date = cv2.resize(bool_mask_date.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
+                bool_mask_name = cv2.resize(bool_mask_name.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
 
                 # Use boolean mask to index img array
-                new_date[bool_mask_date] = img[bool_mask_date]
+                new_name[bool_mask_name] = img[bool_mask_name]
 
-                # Set the pixels corresponding to the Date class to white in the copy of the original image
-                img_without_date_ppa[bool_mask_date] =  [0, 0, 0 , 0]
-                cv2.imwrite(f'./{directoryPath}/Forme.png', new_date)
-                # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
+                cv2.imwrite(f'./{directoryPath}/Name.png', new_name)
+
+            if class_name == 'Dossage':
+                # Convert mask to boolean mask
+
+                print("inside dos")
+                bool_mask_dossage = mask.to(torch.bool).numpy()
+
+                # Resize boolean mask to match img shape
+                bool_mask_dossage = cv2.resize(bool_mask_dossage.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
+
+                # Use boolean mask to index img array
+                new_dossage[bool_mask_dossage] = img[bool_mask_dossage]
+
+                cv2.imwrite(f'./{directoryPath}/Dossage.png', new_dossage)
 
 
 
             if class_name == 'PPA':
-                # Convert mask to boolean mask
-                bool_mask_ppa = mask.to(torch.bool).numpy()
+                    # Convert mask to boolean mask
 
-                # Resize boolean mask to match img shape
-                bool_mask_ppa = cv2.resize(bool_mask_ppa.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
+                    print("inside ppa")
+                    bool_mask_ppa = mask.to(torch.bool).numpy()
 
-                # Use boolean mask to index img array
-                new_ppa[bool_mask_ppa] = img[bool_mask_ppa]
+                    # Resize boolean mask to match img shape
+                    bool_mask_ppa = cv2.resize(bool_mask_ppa.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
 
-                # Set the pixels corresponding to the Date class to white in the copy of the original image
-                img_without_date_ppa[bool_mask_ppa] = [0, 0, 0 , 0]
-                cv2.imwrite(f'./{directoryPath}/PPA.png', new_ppa)
-                # cv2.imwrite(f'./{directoryPath}/without_PPA.jpg', img_without_date_ppa)
+                    # Use boolean mask to index img array
+                    new_ppa[bool_mask_ppa] = img[bool_mask_ppa]
+
+                    # Set the pixels corresponding to the Date class to white in the copy of the original image
+                    img_without_date_ppa[bool_mask_ppa] = [0, 0, 0 , 0]
+                    cv2.imwrite(f'./{directoryPath}/PPA.png', new_ppa)
+                    # cv2.imwrite(f'./{directoryPath}/without_PPA.jpg', img_without_date_ppa)
+
     return img_without_date_ppa
 
 
@@ -153,12 +173,22 @@ def drop_duplicants(class_tensor,conf_tensor):
     return new_pos
 
 
-def  get_product_id_from_segmented_image(path,vig_color_id):
-    id = 0
-    try:
-        result = ocr_model.ocr("./file_with_segmentations/without_Date_PPA.png", cls=True)
+def  get_product_id_from_segmented_image(vig_color_id):
 
-        all_text = " ".join([res[1][0] for res in result[0]])
+    id = 0
+    name = ""
+    dos = ""
+
+    try:
+        result = ocr_model.ocr("./file_with_segmentations/Name.png", cls=True)
+        name = "".join([res[1][0] for res in result[0]])
+        result = ocr_model.ocr("./file_with_segmentations/Dossage.png", cls=True)
+        dos = "".join([res[1][0] for res in result[0]])
+    except:
+        pass
+    all_text = name + " " + dos
+    print("the whole text {}".format(all_text))
+    try:
         id = fuzzy_best_match_id(all_text,vig_color_id)
     except:
         pass
@@ -167,34 +197,25 @@ def  get_product_id_from_segmented_image(path,vig_color_id):
 
 
 def fuzzy_best_match_id(text , vig_class_id):
-
-
     meds_file_path = ""
     if vig_class_id == 0:
         meds_file_path = "green_meds.txt"
     elif vig_class_id == 2:
         meds_file_path = "red_meds.TXT"
 
-    best_match_ratio = 0
     best_match_id = None
+    best_match_ratio = 0
 
     with open(meds_file_path, 'r') as file:
         for line in file:
-            line = line.strip()
-            parts = line.split('###')
-            if len(parts) != 2:
-                continue
+            parts = line.strip().split("###")
+            if len(parts) == 2:
+                medicine_id, medicine_name = parts[0], parts[1]
+                ratio = fuzz.ratio(text, medicine_name)
+                if ratio > best_match_ratio:
+                    best_match_id = medicine_id
+                    best_match_ratio = ratio
 
-            current_id = parts[0]
-            current_text = parts[1]
-
-            ratio = fuzz.token_sort_ratio(text, current_text)
-
-            if ratio > best_match_ratio:
-                best_match_ratio = ratio
-                best_match_id = current_id
-
-    #print("best match id in the function is {} ".format(best_match_id))
     return best_match_id
 
 
@@ -370,8 +391,7 @@ def get_product_id_date_ppa(src):
 
 
 
-    id = get_product_id_from_segmented_image(f'./{directoryPath}/without_Date_PPA.png',results[0].boxes.cls[0])
-
+    id = get_product_id_from_segmented_image(results[0].boxes.cls[0])
     ppa = get_ppa_value()
 
     lot,ddp = getting_date.get_lot_date()

@@ -97,7 +97,7 @@ def get_lot_date():
         pass
       else:
           key , value = getting_date(d)
-          if '/' in value:
+          if '/' in value and key != "lot":
             parts = value.split('/')
             if len(parts)>1 :
               if len(parts[1]) > 0 and len(parts[1]) < 3:
