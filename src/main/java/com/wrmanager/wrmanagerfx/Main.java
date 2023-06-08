@@ -48,7 +48,7 @@ public class Main extends Application {
         setupTodayNotifications(stage);
 
 
-        PipelineRequests.getStockFromImage("./okage.jpg");
+        //PipelineRequests.getStockFromImage("./okage.jpg");
 
 
         }

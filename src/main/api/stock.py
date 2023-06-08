@@ -79,6 +79,21 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
                 img_without_date_ppa[bool_mask_date] =  [0, 0, 0 , 0]
                 cv2.imwrite(f'./{directoryPath}/Date.png', new_date)
                 # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
+            if class_name == 'Forme':
+
+                # Convert mask to boolean mask
+                bool_mask_date = mask.to(torch.bool).numpy()
+
+                # Resize boolean mask to match img shape
+                bool_mask_date = cv2.resize(bool_mask_date.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
+
+                # Use boolean mask to index img array
+                new_date[bool_mask_date] = img[bool_mask_date]
+
+                # Set the pixels corresponding to the Date class to white in the copy of the original image
+                img_without_date_ppa[bool_mask_date] =  [0, 0, 0 , 0]
+                cv2.imwrite(f'./{directoryPath}/Forme.png', new_date)
+                # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
 
 
 
@@ -336,6 +351,7 @@ def get_product_id_date_ppa(src):
 
                         img_without_date_ppa = segmenting_and_saving(img,masks_NDD,class_ids_NDD ,class_ids_to_output_from_NDD)
                         img_without_date_ppa = segmenting_and_saving(img_without_date_ppa,masks_PF,class_ids_PF ,class_ids_to_output_from_PF)
+
                         cv2.imwrite(f'./{directoryPath}/without_Date_PPA.png', img_without_date_ppa)
 
 

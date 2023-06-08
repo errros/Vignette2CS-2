@@ -71,17 +71,33 @@ public class PipelineRequests {
             ObjectMapper mapper = new ObjectMapper();
             JsonNode responseJson = mapper.readTree(responseBody);
 
-            Integer productId = responseJson.get("product_id").asInt();
+            var productIdString= responseJson.get("product_id").asText();
+            var ppaString = responseJson.get("ppa").asText();
+            var dateString = responseJson.get("date").asText();
 
-            Float ppa = (float) responseJson.get("ppa").asDouble();
 
+            Float ppa  = 0.0f;
+            Date date = null;
+            Long productId = 0l;
             String lot = responseJson.get("lot").asText();
 
+            if(!ppaString.isEmpty()) {
+                 ppa = Float.valueOf(ppaString);
 
-            java.sql.Date date = Date.valueOf(responseJson.get("date").asText());
+            }
+
+            if(!dateString.isEmpty()) {
+                 date = Date.valueOf(dateString);
+
+            }
+            if(!productIdString.isEmpty()) {
+                 productId = Long.valueOf(productIdString);
+
+            }
 
 
-            var stock = StockDTO.builder().product_id(Long.valueOf(productId)).ppa(ppa).lot(lot).date(date).build();
+
+            var stock = StockDTO.builder().product_id(productId).ppa(ppa).lot(lot).date(date).build();
 
             System.out.println(stock);
 

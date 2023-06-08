@@ -132,13 +132,24 @@ public class AjouterStockDialogController implements Initializable {
 
                 executor.submit(() -> {
                     System.out.println("rah baghi yexcuter");
-                    var r = PipelineRequests.getProductFromImage("./captured.jpg");
-                    var name = r.get(0);
-                    var dos = r.get(1);
-                    var form = r.get(2);
+                    var r = PipelineRequests.getStockFromImage("./captured.jpg");
+                    System.out.println("r here : " + r);
+                    ppaTfd.setText(r.getPpa().toString());
+
+                    lotTfd.setText(r.getLot());
+
+                    var id = r.getProduct_id();
 
 
-                    System.out.println("recupura");
+                    if(id!=0) {
+                        var produit = produitDAO.getById(r.getProduct_id()).get();
+                        designationTfd.setText(produit.getDesignation());
+                        formTfd.setText(produit.getForme());
+                        dosageTfd.setText(produit.getDosage());
+                    }
+
+                    DatePicker.setText(r.getDate().toString());
+
 
 
 
