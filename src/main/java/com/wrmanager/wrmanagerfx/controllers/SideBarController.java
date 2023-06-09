@@ -126,6 +126,7 @@ public class SideBarController implements Initializable {
             e.printStackTrace();
         }
         scene.getStylesheets().add(Main.class.getResource("images/application.css").toExternalForm());
+            scene.getStylesheets().add(Main.class.getResource("images/dialog.css").toExternalForm());
         stage.setTitle("Hello!");
         stage.setMinHeight(600);
         stage.setMinWidth(950);

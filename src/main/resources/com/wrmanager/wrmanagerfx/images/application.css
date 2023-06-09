@@ -1,20 +1,50 @@
 
-
 .root{
    primary: rgba(35, 140, 131, 1);
    secondary:#C8E2E0;
+   thirdcolor:#ffffff;
    third:white;
-
    annuler-red: #c12727;
+   FontFamily:'Noto Serif';
+   FontFamilyBold:'Noto Serif';
+  -fx-font-family: FontFamily;
 }
 .RootColor{
--fx-background-color:#ffffff;
+
+-fx-background-color:thirdcolor;
+}
+.f-noto{ -fx-font-family: FontFamily;}
+.s-10{ -fx-font-size:10;}
+.s-11{ -fx-font-size:11;}
+.s-12{ -fx-font-size:12;}
+.s-13{ -fx-font-size:13;}
+.s-14{ -fx-font-size:14;}
+.s-15{ -fx-font-size:15;}
+.s-16{ -fx-font-size:16;}
+.s-17{ -fx-font-size:17;}
+.s-18{ -fx-font-size:18;}
+.s-19{ -fx-font-size:19;}
+.s-20{ -fx-font-size:20;}
+.s-22{ -fx-font-size:22;}
+.s-24{ -fx-font-size:24;}
+.s-32{ -fx-font-size:32;}
+.w-bold{ -fx-font-weight: Bold;}
+.w-normal{ -fx-font-weight: normal;}
+
+
+.label.text{
+-fx-font-weight: regular;
+}
+
+#label1 text{
+-fx-font-weight: regular;
 }
 
 
 
 .mfx-date-picker .text-field{
 -fx-border-color:transparent;
+-fx-font-family: FontFamily;
 }
 
 /*cards background pane*/
@@ -36,30 +66,49 @@
 
 .BottomLabelCards{
 -fx-font-weight: bold;
--fx-font-family: "Times New Roman", Times, serif;
 -fx-font-size: 18;
+-fx-font-family: FontFamily;
 }
 .TopLabelCards{
--fx-text-fill:#93a3ab;
--fx-font-family: "Times New Roman", Times, serif;
+-fx-text-fill:#000000;
 -fx-font-size: 14;
+   -fx-font-weight: Bold;
+   -fx-font-family: FontFamily;
 }
 
 
 /* secondary color background*/
 .SecondBackground{
 -fx-background-color:secondary;
--fx-background-radius:10;
+-fx-background-radius:0 0 10 10 ;
 }
 
 
 /*searche bar tfd */
+
+.search-bar{
+    -fx-pref-height:40;
+    -fx-font-size:16;
+       -fx-font-family: FontFamily;
+       -fx-effect :none ;
+    -fx-background-color:#fdfdfd;
+    -fx-background-radius:8;
+    -fx-border-color:#A0AEC0;
+    -fx-border-radius:8;
+}
+.text-field {
+    -fx-font-size:16;
+       -fx-font-family: FontFamily;
+       -fx-effect :none ;
+       }
 .text-field{
     -fx-background-color:#fdfdfd;
-    -fx-background-radius:10;
+    -fx-background-radius:8;
     -fx-border-color:#A0AEC0;
-    -fx-border-radius:10;
+    -fx-border-radius:8;
+
 }
+
 .text-field:focused {
     -fx-background-color:#fdfdfd;
     -fx-border-color:#A0AEC0;
@@ -74,12 +123,14 @@
 -fx-background-repeat: no-repeat ;
 -fx-background-size: 100% 100% ;
 -fx-background-position:center center;
+-fx-border-color:transparent;
+-fx-background-color:transparent;
 }
 
 
 
 /*top bar avatar icon*/
-#AvatarIcon{
+#avatar{
 -fx-background-image: url("avatar.jpg");
 -fx-background-repeat: no-repeat ;
 -fx-background-size: 100% 100% ;
@@ -95,16 +146,34 @@
 -fx-background-color:primary;
 -fx-text-fill:#ffffff;
 -fx-background-radius:10;
+-fx-font-size:16;
+ -fx-font-weight: Bold;
+ -fx-font-family: FontFamily;
 }
-
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
 
 
 /* ventes stock ... buttons*/
 
 .SideBarButton{
 -fx-background-color:"transparent";
--fx-font: 1.5em Georgia;
 -fx-background-radius:10;
+-fx-font-size:17;
+   -fx-font-weight: Bold;
+   -fx-font-family: FontFamily;
+}
+
+/*caisse cal buttons*/
+
+.CaisseCalButtons{
+-fx-background-color :derive(primary, 80%);
+-fx-border-color:black;
+-fx-border-radius:100;
+-fx-background-radius:100;
+-fx-font-size:18;
+-fx-font-family: FontFamily;
 }
 
 
@@ -114,6 +183,7 @@
 -fx-border-radius:10;
 -fx-border-color:gray;
 -fx-border-width:2;
+-fx-font-family: FontFamily;
 }
 
 
@@ -129,7 +199,7 @@
 /* wr logo side bar*/
 #logo
 {
--fx-background-image: url("WRLogo.jpg");
+-fx-background-image: url("logo.png");
 -fx-background-repeat: no-repeat ;
 -fx-background-size: 100%   ;
 -fx-background-position:center center;
@@ -139,7 +209,7 @@
 
 
 /* cards icons */
-#icon,#icon1,#icon2,#icon3{
+#icon,#icon1,#icon2,#icon3,#icon4,#icon5,#icon6,#icon7{
 -fx-background-size: 50% 50%;
 -fx-background-repeat: no-repeat ;
 -fx-background-position:center center;
@@ -150,7 +220,7 @@
 -fx-background-image: url("icon2.png");
 }
 #icon1{
--fx-background-image: url("Fichier1.png");
+-fx-background-image: url("icon4.png");
 }
 #icon2{
 -fx-background-image: url("icon3.png");
@@ -159,7 +229,29 @@
 -fx-background-image: url("icon4.png");
 -fx-background-size: 60% 60%;
 }
+#icon4{
+-fx-background-image: url("icon4.png");
+}
+#icon5{
+-fx-background-image: url("icon3.png");
+}
+#icon6{
+-fx-background-image: url("icon4.png");
+-fx-background-size: 60% 60%;
+}
+#icon7{
+-fx-background-image: url("icon4.png");
+-fx-background-size: 60% 60%;
+}
 /* end cards icons */
+
+.notif-icon{
+-fx-fill:primary;
+}
+
+
+
+
 
 
 
@@ -169,6 +261,10 @@
 -fx-background-radius:20;
 -fx-border-radius:20;
 -fx-border-color:"black";
+}
+#TotaleTF{
+-fx-background-color:primary;
+-fx-background-radius:10;
 }
 
 
@@ -235,11 +331,21 @@
 
 }
 .table-row-cell: even{
-    -fx-background-color: "white";
 
+    -fx-background-color: "white";
 }
+
 .table-row-cell: odd{
     -fx-background-color: "white";
+}
+.table-row-cell: even .text{
+  -fx-font-family: FontFamily;
+    -fx-background-color: "white";
+}
+
+.table-row-cell: odd .text{
+    -fx-background-color: "white";
+    -fx-font-family: FontFamily;
 }
 
 .table-row-cell: hover {
@@ -250,7 +356,8 @@
 
 .table-row-cell:selected .text {
        -fx-fill: "black" ;
-}
+  -fx-font-family: FontFamily;
+}}
 .table-view .table-cell {
     -fx-alignment: center;
     -fx-font-size:14;
@@ -283,6 +390,7 @@
     -fx-border-color:"transparent";
 }
 .table-view .column-header .label {
+        -fx-font-family: FontFamily;
         -fx-text-fill:"white";
         -fx-font-size:16;
         -fx-alignment:center;
@@ -295,14 +403,25 @@
 
 
 .table-row-cell:filled:selected {
-  -fx-background: -fx-control-inner-background ;
-  -fx-background-color: -fx-table-cell-border-color, -fx-background ;
+  -fx-background: derive(gray,80%) ;
+  -fx-background-color: derive(gray,80%);
   -fx-background-insets: 0, 0 0 1 0 ;
-  -fx-table-cell-border-color: "transparent";
+  -fx-table-cell-border-color: gray;
 }
 .table-row-cell:odd:filled:selected {
   -fx-background: -fx-control-inner-background-alt ;
 }
+.table-view .table-cell{
+   -fx-font-weight: regular;
+   -fx-font-family: FontFamily;
+}
+
+.table-view .table-cell .text{
+-fx-font-size:14;
+   -fx-font-weight: Bold;
+   -fx-font-family: FontFamily;
+}
+
 
 /* end table view */
 
@@ -447,8 +566,7 @@
 /*notification*/
 .notification-bar > .pane {
     -fx-background-color: white;
-    -fx-padding: 7 7 7 7;
-    -fx-margin: 30;
+    -fx-padding: 10;
     -fx-fill:transparent;
     -fx-border-color:gray;
     -fx-border-width:1;
@@ -458,13 +576,24 @@
 .notification-pane .notification-bar > .pane {
     -fx-background-radius:15;
     -fx-border-radius:15;
-    -fx-padding: 0 7 0 7;
+    -fx-padding: 10;
 }
 .notification-bar > .pane .title {
+-fx-font-family: FontFamily;
     -fx-font-size: 1.33em; /*15px;*/
     -fx-text-fill: white;
+    -fx-wrap-text : true;
     -fx-alignment:center;
     -fx-font-weight: bold;
+    -fx-margin: 10;
+}
+
+.notification-bar > .pane .text {
+    -fx-font-family: FontFamily;
+    -fx-font-size: 1.33em; /*15px;*/
+    -fx-text-fill: white;
+    -fx-wrap-text : true;
+    -fx-alignment:center;
 }
 
 /* end notification*/
@@ -496,6 +625,9 @@
 .CaisseCards{
 -fx-background-color:"white";
 -fx-background-radius:10;
+}
+.CaisseCards .text{
+-fx-font-family: FontFamily;
 }
 
 

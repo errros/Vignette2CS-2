@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="RootAnchor" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wrmanager.wrmanagerfx.controllers.CaisseViewController">
+<AnchorPane fx:id="RootAnchor" nodeOrientation="LEFT_TO_RIGHT" onKeyPressed="#SceneOnKeyPressed" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.wrmanager.wrmanagerfx.controllers.CaisseViewController">
    <children>
-      <GridPane layoutX="9.600000381469727" layoutY="4.400000095367432" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="921.0" style="-fx-background-color: rgba(35, 140, 131, 0.2); -fx-background-radius: 10;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+      <GridPane layoutX="9.600000381469727" layoutY="4.400000095367432" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="591.0" prefWidth="921.0" styleClass="SecondBackground" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -30,10 +32,11 @@
          <children>
             <GridPane hgap="10.0">
               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="-Infinity" minWidth="10.0" percentWidth="6.0" prefWidth="10.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="28.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="18.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -41,22 +44,22 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <MFXButton fx:id="AjouterButton1" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="38.0" prefWidth="114.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Caisse N° 2" textFill="WHITE" GridPane.columnIndex="1">
+                  <MFXButton fx:id="Caisse2" buttonType="RAISED" depthLevel="LEVEL3" disable="true" prefHeight="38.0" prefWidth="114.0" styleClass="DialogButtons" text="Caisse 2" textFill="WHITE" GridPane.columnIndex="2">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="AjouterButton2" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="38.0" prefWidth="114.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Caisse N° 1" textFill="WHITE">
+                  <MFXButton fx:id="Caisse1" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="38.0" prefWidth="114.0" styleClass="DialogButtons" text="Caisse 1" textFill="WHITE" GridPane.columnIndex="1">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="AjouterButton" buttonType="RAISED" depthLevel="LEVEL3" prefWidth="114.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Caisse N° 3" textFill="WHITE" GridPane.columnIndex="2">
+                  <MFXButton fx:id="Caisse3" buttonType="RAISED" depthLevel="LEVEL3" disable="true" prefWidth="114.0" styleClass="DialogButtons" text="Caisse 3" textFill="WHITE" GridPane.columnIndex="3">
                      <font>
                         <Font name="System Bold" size="17.0" />
                      </font>
                   </MFXButton>
-                  <Label fx:id="Time" alignment="CENTER" prefHeight="40.0" prefWidth="430.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="17/05/2021 23:23" textFill="WHITE" GridPane.columnIndex="4">
+                  <Label fx:id="Time" alignment="CENTER" prefHeight="40.0" prefWidth="430.0" styleClass="DialogButtons" text="17/05/2021 23:23" textFill="WHITE" GridPane.columnIndex="5">
                      <font>
                         <Font name="System Bold" size="26.0" />
                      </font>
@@ -68,11 +71,10 @@
                         </DropShadow>
                      </effect>
                   </Label>
-                  <AnchorPane maxHeight="40.0" maxWidth="210.0" prefHeight="40.0" prefWidth="178.0" style="-fx-background-color: white; -fx-background-radius: 8;" GridPane.columnIndex="5">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: white; -fx-background-radius: 8;" GridPane.columnIndex="6" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                      <children>
-                        <GridPane layoutX="-4.0" layoutY="-31.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane hgap="10.0" layoutX="-4.0" layoutY="-31.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
@@ -80,17 +82,12 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="NotificationIcon" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0">
-                                 <GridPane.margin>
-                                    <Insets bottom="10.0" left="5.0" right="2.0" top="10.0" />
-                                 </GridPane.margin>
-                              </Button>
-                              <Label text="rabah aouar" GridPane.columnIndex="2">
+                              <Label fx:id="userLabel" text="rabah aouar" GridPane.columnIndex="1">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="AvatarIcon" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" GridPane.columnIndex="1">
+                              <Button fx:id="avatar" prefHeight="26.0" prefWidth="26.0">
                                  <GridPane.margin>
                                     <Insets bottom="10.0" left="5.0" right="2.0" top="10.0" />
                                  </GridPane.margin>
@@ -102,6 +99,14 @@
                         <Insets right="15.0" />
                      </GridPane.margin>
                   </AnchorPane>
+                  <MFXButton fx:id="HomeAppBtn" buttonType="RAISED" contentDisplay="CENTER" depthLevel="LEVEL3" graphicTextGap="0.0" prefHeight="40.0" prefWidth="10.0" styleClass="DialogButtons" text=" " textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="17.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="HOME" size="26.0" />
+                     </graphic>
+                  </MFXButton>
                </children>
                <GridPane.margin>
                   <Insets left="10.0" top="5.0" />
@@ -110,10 +115,10 @@
                   <Insets />
                </opaqueInsets>
             </GridPane>
-            <GridPane vgap="10.0" GridPane.rowIndex="1">
+            <GridPane nodeOrientation="LEFT_TO_RIGHT" vgap="10.0" GridPane.rowIndex="1">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="330.4000244140625" minWidth="10.0" percentWidth="30.0" prefWidth="330.4000244140625" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="131.79998779296875" minWidth="10.0" percentWidth="15.0" prefWidth="84.5999755859375" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="12.5" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
@@ -122,43 +127,14 @@
                 <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField fx:id="NomTfd" prefHeight="40.0" promptText="Rechercher" styleClass="DialogTextField">
-                     <GridPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </GridPane.margin>
-                     <effect>
-                        <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
-                           <color>
-                              <Color opacity="0.25" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </TextField>
-                  <TextField fx:id="NomTfd1" prefHeight="40.0" styleClass="DialogTextField" GridPane.columnIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </GridPane.margin>
-                     <effect>
-                        <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
-                           <color>
-                              <Color opacity="0.25" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </TextField>
-                  <GridPane GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </GridPane.margin>
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
-                        <TextField fx:id="NomTfd2" prefHeight="40.0" promptText="Désignation (dernier saisi)" styleClass="DialogTextField" GridPane.columnIndex="1">
+                        <Label text="Code Barre">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="CodeBarreTF" prefHeight="40.0" promptText="Code Barre " HBox.hgrow="ALWAYS">
                            <effect>
                               <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
                                  <color>
@@ -167,25 +143,26 @@
                               </DropShadow>
                            </effect>
                         </TextField>
-                        <Label text="Désignation :">
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label text="Designation :">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
+                        <TextField fx:id="DesignationTF" prefHeight="40.0" prefWidth="214.0" promptText="Designation " HBox.hgrow="ALWAYS">
+                           <effect>
+                              <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
+                                 <color>
+                                    <Color opacity="0.25" />
+                                 </color>
+                              </DropShadow>
+                           </effect>
+                        </TextField>
                      </children>
-                  </GridPane>
-                  <TextField fx:id="NomTfd3" prefHeight="40.0" promptText=" Quantité : 155" styleClass="DialogTextField" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </GridPane.margin>
-                     <effect>
-                        <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
-                           <color>
-                              <Color opacity="0.25" />
-                           </color>
-                        </DropShadow>
-                     </effect>
-                  </TextField>
+                  </HBox>
                   <GridPane GridPane.columnIndex="3">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -195,7 +172,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="NomTfd31" alignment="CENTER" editable="false" prefHeight="30.0" prefWidth="186.0" styleClass="DialogTextField" text="Bon N° : 33">
+                        <TextField fx:id="BonTf" alignment="CENTER" editable="false" prefHeight="30.0" prefWidth="186.0" styleClass="client-bon-lbl" text="Bon : 18">
                            <GridPane.margin>
                               <Insets left="10.0" right="10.0" />
                            </GridPane.margin>
@@ -203,7 +180,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </TextField>
-                        <TextField fx:id="ClientTfd" alignment="CENTER" editable="false" onMouseClicked="#ClientTfdOnAction" prefHeight="30.0" styleClass="DialogTextField" text="Client :  Standard" GridPane.columnIndex="1">
+                        <TextField fx:id="ClientTfd" alignment="CENTER" editable="false" prefHeight="30.0" styleClass="client-bon-lbl" text="Lasheb Amine" GridPane.columnIndex="1">
                            <GridPane.margin>
                               <Insets left="10.0" right="10.0" />
                            </GridPane.margin>
@@ -218,7 +195,7 @@
                         <Insets />
                      </GridPane.margin>
                      <children>
-                        <Label alignment="CENTER" layoutX="10.0" layoutY="16.0" prefHeight="46.0" prefWidth="394.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="2550.00 DA" textFill="WHITE" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="16.0">
+                        <Label fx:id="TotaleTF" alignment="CENTER" layoutX="10.0" layoutY="16.0" prefHeight="46.0" prefWidth="394.0" styleClass="s-32" text="0 DA " textFill="WHITE" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="16.0">
                            <font>
                               <Font name="System Bold" size="32.0" />
                            </font>
@@ -235,6 +212,11 @@
                         </Label>
                      </children>
                   </AnchorPane>
+                  <Label fx:id="QtyRestTF" alignment="CENTER" styleClass="s-20" text="QTY Reste :" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="5.0" top="5.0" />
@@ -261,22 +243,17 @@
                       <RowConstraints minHeight="10.0" percentHeight="17.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <MFXButton fx:id="AjouterButton21" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Retour ventes" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+                        <MFXButton fx:id="SupprimerBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: red;" styleClass="DialogButtons" text="Supprimer" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="AjouterButton22" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Supprimer" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                        <MFXButton fx:id="AnnulerBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" onAction="#AnnulerBtnOnAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: #c12727;;" styleClass="DialogButtons" text="Annuler" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="AjouterButton23" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Annuler" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </MFXButton>
-                        <MFXButton fx:id="AjouterButton24" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: rgba(35, 140, 131, 1); -fx-background-radius: 10;" text="Valider" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                        <MFXButton fx:id="ValiderBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" rippleAnimateBackground="false" rippleColor="#de0d0d00" style="-fx-background-color: green;" styleClass="DialogButtons" text="Valider" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
@@ -285,213 +262,6 @@
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </GridPane>
-                  <GridPane hgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="25.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="75.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <GridPane.margin>
-                        <Insets left="10.0" />
-                     </GridPane.margin>
-                     <children>
-                        <AnchorPane>
-                           <children>
-                              <ListView fx:id="CategoryListView" style="-fx-background-color: transparent;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <opaqueInsets>
-                                    <Insets top="15.0" />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets top="15.0" />
-                                 </padding></ListView>
-                           </children>
-                        </AnchorPane>
-                        <GridPane hgap="15.0" vgap="15.0" GridPane.columnIndex="1">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="1">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="2">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.rowIndex="1">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.rowIndex="2">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.rowIndex="3">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.rowIndex="4">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="2" GridPane.rowIndex="4">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.rowIndex="5">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                              <AnchorPane prefHeight="200.0" prefWidth="200.0" styleClass="CaisseCards" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                                 <effect>
-                                    <DropShadow>
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
-                              </AnchorPane>
-                           </children>
-                           <GridPane.margin>
-                              <Insets bottom="15.0" right="15.0" top="15.0" />
-                           </GridPane.margin>
-                        </GridPane>
-                     </children>
                   </GridPane>
                   <GridPane GridPane.columnIndex="2">
                     <columnConstraints>
@@ -514,17 +284,11 @@
                               </DropShadow>
                            </effect>
                            <padding>
-                              <Insets bottom="-2.0" left="-2.0" right="-2.0" top="-2.0" />
+                              <Insets bottom="2.0" left="-1.0" right="-1.0" top="-2.0" />
                            </padding>
                            <GridPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>
-                           <columns>
-                              <TableColumn prefWidth="100.00006234645844" text="N°" />
-                              <TableColumn prefWidth="133.59998321533203" text="Désignation" />
-                              <TableColumn prefWidth="80.79997253417969" text="QTY" />
-                              <TableColumn prefWidth="70.39990234375" text="Totale" />
-                           </columns>
                         </TableView>
                         <GridPane GridPane.rowIndex="1">
                           <columnConstraints>
@@ -556,96 +320,101 @@
                                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                       </rowConstraints>
                                        <children>
-                                          <MFXButton fx:id="AjouterButton3" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="8" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn8" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn8OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="8" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton8" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="7" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn7" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn7OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="7" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton9" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn9" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn9OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="9" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton10" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="4" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn4" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn4OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="4" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton11" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn5" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn5OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="5" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton12" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="6" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn6" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn6OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="6" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton13" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn1" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn1OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton131" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn2" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn2OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="2" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
-                                          <MFXButton fx:id="AjouterButton132" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                          <MFXButton fx:id="Btn3" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn3OnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                              <font>
                                                 <Font name="System Bold" size="17.0" />
                                              </font>
                                           </MFXButton>
                                        </children>
                                     </GridPane>
-                                    <MFXButton fx:id="AjouterButton133" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="242.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                       <font>
-                                          <Font name="System Bold" size="17.0" />
-                                       </font>
+                                    <GridPane hgap="15.0" vgap="15.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                                        <GridPane.margin>
                                           <Insets top="10.0" />
                                        </GridPane.margin>
-                                    </MFXButton>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="32.0" prefWidth="100.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <MFXButton fx:id="Btn0" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#Btn0OnAction" prefHeight="38.0" prefWidth="242.0" styleClass="CaisseCalButtons" text="0">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </MFXButton>
+                                          <MFXButton fx:id="BtnPoint" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#BtnPointOnAction" prefWidth="60.0" styleClass="CaisseCalButtons" text="." GridPane.columnIndex="1">
+                                             <font>
+                                                <Font name="System Bold" size="17.0" />
+                                             </font>
+                                          </MFXButton>
+                                       </children>
+                                    </GridPane>
                                  </children>
                                  <GridPane.margin>
                                     <Insets left="10.0" right="10.0" />
                                  </GridPane.margin>
                               </GridPane>
-                              <GridPane GridPane.columnIndex="1">
+                              <GridPane alignment="CENTER" vgap="20.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                 <columnConstraints>
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                 </columnConstraints>
                                 <rowConstraints>
-                                  <RowConstraints minHeight="10.0" percentHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <GridPane hgap="15.0" vgap="15.0">
-                                      <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="50.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                       <children>
-                                          <MFXButton fx:id="AjouterButton134" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="+" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-                                             <font>
-                                                <Font name="System Bold" size="17.0" />
-                                             </font>
-                                          </MFXButton>
-                                          <MFXButton fx:id="AjouterButton135" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" prefWidth="60.0" style="-fx-background-color: rgba(35, 140, 131, 0.3); -fx-border-color: black; -fx-border-radius: 100; -fx-background-radius: 100;" text="-" GridPane.columnIndex="1">
-                                             <font>
-                                                <Font name="System Bold" size="17.0" />
-                                             </font>
-                                          </MFXButton>
-                                       </children>
-                                    </GridPane>
+                                    <MFXButton fx:id="BtnPlus" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#BtnPlusOnAction" prefHeight="80.0" prefWidth="60.0" styleClass="CaisseCalButtons" text="+" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </MFXButton>
+                                    <MFXButton fx:id="BtnEnter" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" maxWidth="1.7976931348623157E308" onAction="#BtnEnterOnAction" prefHeight="80.0" prefWidth="60.0" styleClass="CaisseCalButtons" text="Enter" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                                       <font>
+                                          <Font name="System Bold" size="18.0" />
+                                       </font>
+                                    </MFXButton>
                                  </children>
                               </GridPane>
                            </children>
@@ -657,6 +426,42 @@
                            </GridPane.margin>
                         </GridPane>
                      </children>
+                  </GridPane>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <ImageView fx:id="imageView" fitHeight="430.0" fitWidth="680.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <GridPane.margin>
+                              <Insets left="40.0" right="40.0" />
+                           </GridPane.margin></ImageView>
+                        <HBox fx:id="buttonsHb" alignment="CENTER" prefHeight="74.0" prefWidth="284.0" spacing="20.0" GridPane.rowIndex="1">
+                           <children>
+                              <Button fx:id="" graphicTextGap="0.0" mnemonicParsing="false" onAction="#PlayButtonOnAction" style="-fx-background-color: transparent;" text=" ">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#238c83" glyphName="PLAY" size="30" />
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="CameraButton1" graphicTextGap="0.0" mnemonicParsing="false" onAction="#CameraButtonOnAction" style="-fx-background-color: transparent;" text=" ">
+                                 <graphic>
+                                    <FontAwesomeIconView fill="#238c83" glyphName="CAMERA" size="30" styleClass="AddIcons">
+                                       <cursor>
+                                          <Cursor fx:constant="CLOSED_HAND" />
+                                       </cursor>
+                                    </FontAwesomeIconView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </children>
+                     <GridPane.margin>
+                        <Insets left="40.0" right="40.0" />
+                     </GridPane.margin>
                   </GridPane>
                </children>
             </GridPane>

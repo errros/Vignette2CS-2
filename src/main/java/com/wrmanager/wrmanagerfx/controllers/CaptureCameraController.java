@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 
 public class CaptureCameraController implements Initializable {
 
-    private static final String CAMERA_IP = "http://192.168.43.194:8080/video";
+    private static final String CAMERA_IP = "http://192.168.43.1:8080/video";
     public Mat frame;
     public Image image;
     public static Thread thread;
@@ -40,10 +40,18 @@ public class CaptureCameraController implements Initializable {
         thread.stop();
         imageView.setImage(image);
         ImageProcessing.saveCapturedImage(frame);
-        dialog.setResult(ButtonType.CLOSE);
+        dialog.setResult(ButtonType.YES);
         dialog.close();
         thread.stop();
 
+    }
+
+
+
+    @FXML
+    void CloseButtonOnAction(ActionEvent event) throws InterruptedException {
+        dialog.setResult(ButtonType.CLOSE);
+        dialog.close();
     }
 
     @FXML
