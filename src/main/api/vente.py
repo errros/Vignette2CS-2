@@ -45,102 +45,26 @@ def getting_class_ids_to_output(class_ids_NDD,class_ids_PF):
 
     return class_ids_to_output_from_NDD , class_ids_to_output_from_PF
 
-"""
 def segmenting_and_saving(img, masks, class_ids, class_ids_to_output_from_, output_dir=directoryPath):
     def process_segment(mask, class_id):
         if int(class_id.item()) in class_ids_to_output_from_:
             class_name = classes_names[str(int(class_id.item()))]
             # CONDITION HERE !!!!!!
-            new_img = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
-            bool_mask = mask.to(torch.bool).numpy()
-            bool_mask = cv2.resize(bool_mask.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
-            new_img[bool_mask] = img[bool_mask]
-            check_file = os.path.exists(f'{output_dir}/{class_name}.png')
-            if check_file:
-                cv2.imwrite(f'{output_dir}/{class_name}_1.png', new_img)
-            else:
-                cv2.imwrite(f'{output_dir}/{class_name}.png', new_img)
+            if class_name != 'Forme':
+
+                new_img = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
+                bool_mask = mask.to(torch.bool).numpy()
+                bool_mask = cv2.resize(bool_mask.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
+                new_img[bool_mask] = img[bool_mask]
+                check_file = os.path.exists(f'{output_dir}/{class_name}.png')
+                if check_file:
+                    cv2.imwrite(f'{output_dir}/{class_name}_1.png', new_img)
+                else:
+                    cv2.imwrite(f'{output_dir}/{class_name}.png', new_img)
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         futures = [executor.submit(process_segment, mask, class_id) for mask, class_id in zip(masks, class_ids)]
         concurrent.futures.wait(futures)
-"""
-def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
-    # Create new image with transparent background
-
-    new_ppa = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
-    new_date = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
-    new_name = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
-    new_dossage = np.zeros((img.shape[0], img.shape[1], 4), dtype=np.uint8)
-
-
-    for mask, class_id in zip(masks, class_ids):
-        if int(class_id.item()) in class_ids_to_output_from_ :
-            class_name = classes_names[str(int(class_id.item()))]
-
-            # print('i am outputing : '+str(class_name))
-
-
-            # if class_name == 'Date' or class_name ==  'Name' or class_name == 'Dossage' :
-            #  Check if class name is 'Date'
-            if class_name == 'Date':
-                print("inside date")
-                # Convert mask to boolean mask
-                bool_mask_date = mask.to(torch.bool).numpy()
-
-                # Resize boolean mask to match img shape
-                bool_mask_date = cv2.resize(bool_mask_date.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
-
-                # Use boolean mask to index img array
-                new_date[bool_mask_date] = img[bool_mask_date]
-
-                cv2.imwrite(f'./{directoryPath}/Date.png', new_date)
-
-                print("saved date")
-                # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
-            if class_name == 'Name':
-                # Convert mask to boolean mask
-                print("inside name")
-                bool_mask_name = mask.to(torch.bool).numpy()
-
-                # Resize boolean mask to match img shape
-                bool_mask_name = cv2.resize(bool_mask_name.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
-
-                # Use boolean mask to index img array
-                new_name[bool_mask_name] = img[bool_mask_name]
-
-                cv2.imwrite(f'./{directoryPath}/Name.png', new_name)
-
-            if class_name == 'Dossage':
-                # Convert mask to boolean mask
-
-                print("inside dos")
-                bool_mask_dossage = mask.to(torch.bool).numpy()
-
-                # Resize boolean mask to match img shape
-                bool_mask_dossage = cv2.resize(bool_mask_dossage.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
-
-                # Use boolean mask to index img array
-                new_dossage[bool_mask_dossage] = img[bool_mask_dossage]
-
-                cv2.imwrite(f'./{directoryPath}/Dossage.png', new_dossage)
-
-
-
-            if class_name == 'PPA':
-                    # Convert mask to boolean mask
-
-                    print("inside ppa")
-                    bool_mask_ppa = mask.to(torch.bool).numpy()
-
-                    # Resize boolean mask to match img shape
-                    bool_mask_ppa = cv2.resize(bool_mask_ppa.astype(np.uint8), (img.shape[1], img.shape[0])).astype(bool)
-
-                    # Use boolean mask to index img array
-                    new_ppa[bool_mask_ppa] = img[bool_mask_ppa]
-
-                    cv2.imwrite(f'./{directoryPath}/PPA.png', new_ppa)
-                    # cv2.imwrite(f'./{directoryPath}/without_PPA.jpg', img_without_date_ppa)
 
 
 def drop_duplicants(class_tensor,conf_tensor):
@@ -205,8 +129,6 @@ def fuzzy_best_match_id(text , vig_class_id):
     best_match_id = None
     best_match_ratio = 0
 
-    text = text.upper()
-    print(text)
     with open(meds_file_path, 'r') as file:
         for line in file:
             parts = line.strip().split("###")
@@ -225,23 +147,18 @@ def fuzzy_best_match_id(text , vig_class_id):
 
 #BEGINS HERE
 
-def get_product_id_date_ppa(src):
+def vente(src):
 
 
     img = cv2.imread(src)
 
 
 
-    # Python program to check
-    # if a directory contains file
 
 
 
 
-    # path of the directory
 
-    # Check whether the specified
-    # path exists or not
     isExist = os.path.exists(directoryPath)
     if not isExist :
             os.mkdir(directoryPath)
@@ -260,7 +177,7 @@ def get_product_id_date_ppa(src):
     #THE CODITION IS FOR IF HE IS DETECTING A VIGNETTE
     if (len(results[0].boxes.cls)>0):
         color_id  =results[0].boxes.cls[0]
-        #THE CODITION IS FOR IF HE IS DETECTING A Green or Red VIGNETTE
+        #THE CODITION IS FOR IF HE IS DETECTING A Green or R ed VIGNETTE
         if (color_id==0) or (color_id==2):
             #color contains Green or Red
             color = vignette_color[str(int(color_id))]
@@ -358,19 +275,12 @@ def get_product_id_date_ppa(src):
 
                         class_ids_to_output_from_NDD ,class_ids_to_output_from_PF = getting_class_ids_to_output(class_ids_NDD,class_ids_PF)
 
-                        # print(class_ids_to_output_from_NDD)
-                        # print(class_ids_to_output_from_PF)
                         # Iterate over segmentation masks and class names
 
                         # Iterate over segmentation masks and class names
 
                         segmenting_and_saving(img, masks_NDD, class_ids_NDD, class_ids_to_output_from_NDD)
                         segmenting_and_saving(img, masks_PF, class_ids_PF, class_ids_to_output_from_PF)
-
-                        # img_without_date_ppa = segmenting_and_saving(img,masks_NDD,class_ids_NDD ,class_ids_to_output_from_NDD)
-                        # img_without_date_ppa = segmenting_and_saving(img_without_date_ppa,masks_PF,class_ids_PF ,class_ids_to_output_from_PF)
-                        #
-                        # cv2.imwrite(f'./{directoryPath}/without_Date_PPA.png', img_without_date_ppa)
 
 
 
@@ -389,8 +299,7 @@ def get_product_id_date_ppa(src):
 
 
     id = get_product_id_from_segmented_image(results[0].boxes.cls[0])
-    ppa = get_ppa_value()
     lot,ddp = getting_date.get_lot_date()
 
-    return id,ppa,lot,ddp
+    return id,lot,ddp
 

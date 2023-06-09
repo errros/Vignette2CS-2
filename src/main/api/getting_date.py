@@ -105,7 +105,7 @@ def get_lot_date():
                   value = '/'.join(parts)
 
           if key == "DDP":
-            #print("value ta3 DDP {}".format(ddp))
+            print("value ta3 DDP {}".format(ddp))
             ddp = parser.parse(value, dayfirst=True, fuzzy=True).date()
           if key == "lot":
             #print("value ta3 lot {}".format(lot))

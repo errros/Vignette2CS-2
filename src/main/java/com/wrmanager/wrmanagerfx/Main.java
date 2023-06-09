@@ -44,8 +44,7 @@ public class Main extends Application {
         stage.setMaximized(true);
         Constants.initObservableLists();
 
-
-        setupTodayNotifications(stage);
+        //setupTodayNotifications(stage);
 
 
         //PipelineRequests.getStockFromImage("./okage.jpg");

@@ -37,7 +37,7 @@ public class Stock {
 
     @Basic(optional = false)
     @Column(nullable = false)
-    private Integer ppa;
+    private Float ppa;
 
 
 
