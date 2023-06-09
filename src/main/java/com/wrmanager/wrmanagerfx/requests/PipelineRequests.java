@@ -67,7 +67,7 @@ public class PipelineRequests {
 
 
 
-    public static StockDTO venteFromImage(String path) {
+    public static StockDTO getVenteFromImage(String path) {
         String url = "http://127.0.0.1:8000/vente";
         String requestBody = "{ \"path\": \"" + path + "\" }";
 

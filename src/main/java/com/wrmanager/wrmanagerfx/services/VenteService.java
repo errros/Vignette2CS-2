@@ -2,8 +2,9 @@ package com.wrmanager.wrmanagerfx.services;
 
 import com.wrmanager.wrmanagerfx.entities.Achat;
 import com.wrmanager.wrmanagerfx.entities.Fournisseur;
-import com.wrmanager.wrmanagerfx.entities.Stock;
+
 import com.wrmanager.wrmanagerfx.entities.Vente;
+import com.wrmanager.wrmanagerfx.entities.Stock;
 import com.wrmanager.wrmanagerfx.models.StockDTO;
 
 import java.util.*;

@@ -48,4 +48,6 @@ requires com.fasterxml.jackson.databind;
 
     exports com.wrmanager.wrmanagerfx.controllers;
 
+
+
 }
