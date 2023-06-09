@@ -2,56 +2,31 @@ package com.wrmanager.wrmanagerfx.controllers;
 
 
 import com.wrmanager.wrmanagerfx.Constants;
-import com.wrmanager.wrmanagerfx.Main;
-import com.wrmanager.wrmanagerfx.controllers.OuiNonDialogController;
-import com.wrmanager.wrmanagerfx.controllers.SideBarController;
 
+import com.wrmanager.wrmanagerfx.Main;
 import com.wrmanager.wrmanagerfx.entities.*;
 
 
-import com.wrmanager.wrmanagerfx.models.SystemMeasure;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.effects.DepthLevel;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.NodeOrientation;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Callback;
-import javafx.util.Duration;
 import net.sf.jasperreports.engine.JRException;
-import org.apache.poi.ss.formula.functions.Code;
-import org.controlsfx.control.Notifications;
-import org.controlsfx.control.textfield.AutoCompletionBinding;
-import org.controlsfx.control.textfield.TextFields;
 import org.opencv.core.Mat;
 import org.opencv.videoio.VideoCapture;
 
@@ -59,14 +34,9 @@ import java.awt.Button;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.prefs.Preferences;
-import java.util.stream.Collectors;
-
-import static com.wrmanager.wrmanagerfx.Constants.*;
 
 
 public class CaisseViewController implements Initializable {
@@ -169,7 +139,7 @@ public class CaisseViewController implements Initializable {
     private ImageView imageView;
 
 
-    private static final String CAMERA_IP = "http://192.168.43.1:8080/video";
+    private static final String CAMERA_IP = Main.CAMERA_IP;
     public Mat frame;
     public Image image;
     public static Thread thread;
@@ -214,8 +184,8 @@ public class CaisseViewController implements Initializable {
     private TableColumn<Stock, Integer> ordreColumn = new TableColumn<>("id");
     private TableColumn<Stock, String> designationColumn = new TableColumn<>("designation");
     private TableColumn<Stock, String> dosageColumn = new TableColumn<>("dosage");
-    private TableColumn <Stock, Integer> qtyColumn = new TableColumn<>("qty");
-    private TableColumn<Stock, Float> ppaColumn = new TableColumn<>("ppa");
+    private TableColumn<Stock, String> qtyColumn = new TableColumn<Stock, String>("qty");
+    private TableColumn<Stock, String> ppaColumn = new TableColumn<Stock, String>("ppa");
 
 
 
@@ -453,54 +423,58 @@ public class CaisseViewController implements Initializable {
 
 
     private void divideTableWidthOnColumns() {
-/*
+
         Double size = Double.valueOf(ProduitsTable.getColumns().size());
         //calculate the size of each column
         double sizeCoulumn = 1 / (size);
         //set the size of each column
         ordreColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.1));
-        prixUniteColumn.setSortable(true);
-        prixUniteColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.3));
+        ppaColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.3));
         designationColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.23));
         qtyColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.1));
-        prixTotaleColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.26));
+        dosageColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.26));
 
-*/
     }
 
 
     private void setupValueFactories() {
-        /*
         //define the cells factory
         ordreColumn.setCellValueFactory(
-                new PropertyValueFactory<ProduitCaisse, Integer>("ordre"));
+                new PropertyValueFactory<Stock, Integer>("ordre"));
 
-        designationColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ProduitCaisse, String>, ObservableValue<String>>() {
+        designationColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Stock, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<String> call(TableColumn.CellDataFeatures<ProduitCaisse, String> produitCaisseStringCellDataFeatures) {
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Stock, String> produitCaisseStringCellDataFeatures) {
                 return new SimpleStringProperty(produitCaisseStringCellDataFeatures.getValue().getProduit().getDesignation());
 
             }
         });
-        prixUniteColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ProduitCaisse, Integer>, ObservableValue<Integer>>() {
+
+        dosageColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Stock, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue call(TableColumn.CellDataFeatures<ProduitCaisse, Integer> produitCaisseStringCellDataFeatures) {
-                return new SimpleIntegerProperty(produitCaisseStringCellDataFeatures.getValue().getProduit().getPrixVenteUnite());
+            public ObservableValue call(TableColumn.CellDataFeatures<Stock, String> produitCaisseStringCellDataFeatures) {
+                return new SimpleStringProperty(produitCaisseStringCellDataFeatures.getValue().getProduit().getDosage());
 
             }
         });
 
-        qtyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ProduitCaisse, Float>, ObservableValue>() {
+        qtyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Stock, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue call(TableColumn.CellDataFeatures<ProduitCaisse, Float> produitCaisseFloatCellDataFeatures) {
-                DecimalFormat df = new DecimalFormat();
-                df.setMaximumFractionDigits(2);
-                return new SimpleStringProperty(df.format(produitCaisseFloatCellDataFeatures.getValue().getQty()));
+            public ObservableValue call(TableColumn.CellDataFeatures<Stock, String> produitCaisseStringCellDataFeatures) {
+                return new SimpleStringProperty(produitCaisseStringCellDataFeatures.getValue().getPpa().toString());
+
             }
         });
-        prixTotaleColumn.setCellValueFactory(new PropertyValueFactory<ProduitCaisse, Integer>("prixTotale"));
 
-        */
+        ppaColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Stock, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue call(TableColumn.CellDataFeatures<Stock, String> produitCaisseStringCellDataFeatures) {
+                return new SimpleStringProperty(produitCaisseStringCellDataFeatures.getValue().getPpa().toString());
+
+            }
+        });
+
+
     }
 
 

@@ -21,6 +21,8 @@ import java.io.*;
 import static com.wrmanager.wrmanagerfx.Constants.*;
 
 public class Main extends Application {
+
+    public static final String CAMERA_IP = "http://192.168.43.1:8080/video";
     @Override
     public void start(Stage stage) throws IOException {
 
