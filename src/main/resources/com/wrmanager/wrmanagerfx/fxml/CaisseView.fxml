@@ -214,7 +214,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="ValiderBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" rippleAnimateBackground="false" rippleColor="#de0d0d00" style="-fx-background-color: green;" styleClass="DialogButtons" text="Valider" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                        <MFXButton fx:id="ValiderBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" onAction="#ValiderBtnOnAction" prefHeight="60.0" prefWidth="150.0" rippleAnimateBackground="false" rippleColor="#de0d0d00" style="-fx-background-color: green;" styleClass="DialogButtons" text="Valider" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>

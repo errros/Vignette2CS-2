@@ -237,7 +237,7 @@ public class AjouterStockDialogController implements Initializable {
         var dosage = dosageTfd.getText();
         var form = formTfd.getText();
 
-        var ppa = Integer.valueOf(ppaTfd.getText());
+        var ppa = Float.valueOf(ppaTfd.getText());
         var lot = lotTfd.getText();
         var date = Date.valueOf(DatePicker.getCurrentDate());
         var qty = Integer.valueOf(qtyTfd.getText());

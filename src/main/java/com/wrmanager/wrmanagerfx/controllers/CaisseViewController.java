@@ -8,10 +8,12 @@ import com.wrmanager.wrmanagerfx.entities.*;
 
 
 import com.wrmanager.wrmanagerfx.repositories.ProduitDAO;
+import com.wrmanager.wrmanagerfx.requests.PipelineRequests;
 import com.wrmanager.wrmanagerfx.services.CommandeService;
 import com.wrmanager.wrmanagerfx.services.ProduitService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -41,6 +43,9 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 
 public class CaisseViewController implements Initializable {
@@ -351,7 +356,6 @@ public class CaisseViewController implements Initializable {
             while (true) {
                 synchronized (lock) {
                     video = new VideoCapture(CAMERA_IP);
-                    if (video.isOpened()) System.out.println("it works");
                     video.read(frame);
                     Mat processedFrame = imageProcessing.processFrame(frame);
                     image = imageProcessing.matToImage(processedFrame);
@@ -367,23 +371,38 @@ public class CaisseViewController implements Initializable {
     void CameraButtonOnAction(ActionEvent event){
         thread.stop();
         imageView.setImage(image);
-        //ImageProcessing.saveCapturedImage(frame);
+        ImageProcessing.saveCapturedImage(frame);
         thread.stop();
         thread.stop();
         thread.stop();
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.submit(() -> {
+            System.out.println("rah baghi yexcuter");
+            var r = PipelineRequests.getVenteFromImage("./captured.jpg");
+            var stock = Constants.venteService.getStockFromCamera(r);
+            System.out.println("r here : " + r);
+            if (stock.isPresent()){
+                System.out.println("yaaaaaaaaaaaaw raha mchat"+stock.get().getProduit().getDesignation());
+                try {
+                    addProduitToCurrentCaisse(stock.get());
+                    setupTotaleTF();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            };
+        });
     }
 
     public TableView<Stock> getProduitsTable() {
         return ProduitsTable;
     }
 
-    private TableColumn<Stock, Integer> ordreColumn = new TableColumn<>("id");
     private TableColumn<Stock, String> designationColumn = new TableColumn<>("designation");
     private TableColumn<Stock, String> dosageColumn = new TableColumn<>("dosage");
     private TableColumn<Stock, String> qtyColumn = new TableColumn<Stock, String>("qty");
     private TableColumn<Stock, String> ppaColumn = new TableColumn<Stock, String>("ppa");
-
-
 
 
     @FXML
@@ -391,28 +410,47 @@ public class CaisseViewController implements Initializable {
         var s = ProduitsTable.getSelectionModel().getSelectedItem();
         ProduitsTable.getItems().remove(s);
         ProduitsTable.refresh();
+        setupTotaleTF();
     }
 
     @FXML
     void ValiderBtnOnAction(ActionEvent event) throws FileNotFoundException, JRException {
-
+        List<Stock> modifiedStocks = ProduitsTable.getItems().stream().map(stock -> {
+            stock.setQty(stock.getQty() - stock.getQtyEnCaisse());
+            System.out.println(stock.getQty());
+            Constants.stockService.update(stock);
+            return stock;
+        }).collect(Collectors.toList());
+        ProduitsTable.getItems().clear();
+        ProduitsTable.refresh();
+        TotaleTF.setText("0 DA");
     }
 
 
-
-
-
-
-
-
     public void addProduitToCurrentCaisse(Stock stock) throws IOException {
-        ProduitsTable.getItems().add(stock);
+        var s=ProduitsTable.getItems().stream().collect(Collectors.toList()).indexOf(stock);
+        System.out.println("this is s "+s);
+        if (s != -1 )
+        {
+           var stockToModifie= ProduitsTable.getItems().get(s);
+           ProduitsTable.getItems().remove(stockToModifie);
+           stockToModifie.setQtyEnCaisse(stockToModifie.getQtyEnCaisse()+1);
+           ProduitsTable.getItems().add(stockToModifie);
+
+        }
+        else {stock.setQtyEnCaisse(stock.getQtyEnCaisse()+1);
+            ProduitsTable.getItems().add(stock);}
         ProduitsTable.refresh();
     }
 
 
     private void setupTotaleTF() {
-
+        Platform.runLater(() -> {
+            var sumPrice = ProduitsTable.getItems().stream()
+                    .mapToDouble(ss -> ss.getQtyEnCaisse() * ss.getPpa())
+                    .sum();
+            TotaleTF.setText(sumPrice + " DA");
+        });
     }
 
 
@@ -422,7 +460,6 @@ public class CaisseViewController implements Initializable {
         //calculate the size of each column
         double sizeCoulumn = 1 / (size);
         //set the size of each column
-        ordreColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.1));
         ppaColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.3));
         designationColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.23));
         qtyColumn.prefWidthProperty().bind(ProduitsTable.widthProperty().multiply(0.1));
@@ -433,9 +470,6 @@ public class CaisseViewController implements Initializable {
 
     private void setupValueFactories() {
         //define the cells factory
-        ordreColumn.setCellValueFactory(
-                new PropertyValueFactory<Stock, Integer>("ordre"));
-
         designationColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Stock, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Stock, String> produitCaisseStringCellDataFeatures) {
@@ -455,7 +489,7 @@ public class CaisseViewController implements Initializable {
         qtyColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Stock, String>, ObservableValue<String>>() {
             @Override
             public ObservableValue call(TableColumn.CellDataFeatures<Stock, String> produitCaisseStringCellDataFeatures) {
-                return new SimpleStringProperty(produitCaisseStringCellDataFeatures.getValue().getPpa().toString());
+                return new SimpleStringProperty(produitCaisseStringCellDataFeatures.getValue().getQtyEnCaisse().toString());
 
             }
         });
@@ -485,7 +519,7 @@ public class CaisseViewController implements Initializable {
     private void setupTable() {
 
         ProduitsTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        ProduitsTable.getColumns().addAll(ordreColumn, designationColumn, dosageColumn, ppaColumn, qtyColumn);
+        ProduitsTable.getColumns().addAll( designationColumn, dosageColumn, ppaColumn, qtyColumn);
         setupValueFactories();
         divideTableWidthOnColumns();
     }
@@ -497,21 +531,8 @@ public class CaisseViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-
-
         setupTable();
-
         CurrentTimeLabel();
-
-        var s =Stock.builder().fournisseur("").ppa(155f).qty(15).produit(Constants.produitDAO.getById(Long.valueOf(2)).get()).build();
-        try {
-            addProduitToCurrentCaisse(s);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //setupTotaleTF();
-
 
     }
 
