@@ -47,7 +47,8 @@ public class Main extends Application {
         //setupTodayNotifications(stage);
 
 
-        //PipelineRequests.getStockFromImage("./okage.jpg");
+        var r = PipelineRequests.getVenteFromImage("./captured.jpg");
+        System.out.println(venteService.getStockFromCamera(r));
 
 
         }
