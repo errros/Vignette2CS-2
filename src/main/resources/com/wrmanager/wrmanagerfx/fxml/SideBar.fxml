@@ -27,9 +27,9 @@
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="441.0" prefWidth="126.0" spacing="15.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <children>
-            <AnchorPane fx:id="logo" prefHeight="50.0">
+            <AnchorPane fx:id="logo" prefHeight="77.0" prefWidth="146.0">
                <VBox.margin>
-                  <Insets bottom="30.0" left="20.0" right="20.0" top="5.0" />
+                  <Insets bottom="10.0" top="10.0" />
                </VBox.margin></AnchorPane>
             <MFXButton fx:id="CaisseButton" alignment="BASELINE_LEFT" buttonType="RAISED" depthLevel="LEVEL3" graphicTextGap="10.0" onAction="#CaisseButtonOnAction" prefHeight="45.0" prefWidth="170.0" rippleColor="#e7e5e5" styleClass="SideBarButton" text="Caisse" textFill="#aeb9be">
                <font>

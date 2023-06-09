@@ -199,10 +199,16 @@
 /* wr logo side bar*/
 #logo
 {
--fx-background-image: url("logo.png");
+
+-fx-background-image: url("SpeedPharm-horizontal-logo.png");
 -fx-background-repeat: no-repeat ;
 -fx-background-size: 100%   ;
+-fx-border:1;
+-fx-border-radius:2;
+-fx-border-color:black;
 -fx-background-position:center center;
+
+
 }
 
 

@@ -127,42 +127,8 @@
                 <RowConstraints minHeight="10.0" percentHeight="50.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0">
-                     <children>
-                        <Label text="Code Barre">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="CodeBarreTF" prefHeight="40.0" promptText="Code Barre " HBox.hgrow="ALWAYS">
-                           <effect>
-                              <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
-                                 <color>
-                                    <Color opacity="0.25" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                        </TextField>
-                     </children>
-                  </HBox>
-                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="1">
-                     <children>
-                        <Label text="Designation :">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="DesignationTF" prefHeight="40.0" prefWidth="214.0" promptText="Designation " HBox.hgrow="ALWAYS">
-                           <effect>
-                              <DropShadow height="0.0" offsetX="4.0" offsetY="4.0" radius="0.0" width="0.0">
-                                 <color>
-                                    <Color opacity="0.25" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                        </TextField>
-                     </children>
-                  </HBox>
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.rowIndex="1" />
                   <GridPane GridPane.columnIndex="3">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -212,11 +178,6 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <Label fx:id="QtyRestTF" alignment="CENTER" styleClass="s-20" text="QTY Reste :" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
                </children>
                <GridPane.margin>
                   <Insets bottom="5.0" top="5.0" />
