@@ -29,6 +29,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
@@ -149,7 +150,7 @@ public class AjouterStockDialogController implements Initializable {
                         dosageTfd.setText(produit.getDosage());
                     }
 
-                    DatePicker.setText(r.getDate().toString());
+                    DatePicker.setValue(r.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 
 
 

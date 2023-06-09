@@ -204,7 +204,7 @@
                       <RowConstraints minHeight="10.0" percentHeight="17.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <MFXButton fx:id="SupprimerBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: red;" styleClass="DialogButtons" text="Supprimer" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+                        <MFXButton fx:id="SupprimerBtn" alignment="BASELINE_CENTER" buttonType="RAISED" depthLevel="LEVEL3" onAction="#SupprimerBtnOnAction" prefHeight="60.0" prefWidth="150.0" style="-fx-background-color: red;" styleClass="DialogButtons" text="Supprimer" textFill="WHITE" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
