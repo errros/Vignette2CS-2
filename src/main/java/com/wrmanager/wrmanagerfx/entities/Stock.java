@@ -53,6 +53,10 @@ public class Stock {
     private Integer qty = 0;
 
 
+    @Transient
+    private Integer qtyEnCaisse = 0;
+
+
     @ManyToOne
     @JoinColumn(name = "produit_id")
     private Produit produit;
