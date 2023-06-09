@@ -1,5 +1,7 @@
 package com.wrmanager.wrmanagerfx.controllers;
 
+import com.wrmanager.wrmanagerfx.Constants;
+import com.wrmanager.wrmanagerfx.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,7 +22,7 @@ import java.util.ResourceBundle;
 
 public class CaptureCameraController implements Initializable {
 
-    private static final String CAMERA_IP = "http://192.168.1.103:8080/video";
+    private static final String CAMERA_IP = Main.CAMERA_IP;
     public Mat frame;
     public Image image;
     public static Thread thread;
@@ -40,41 +42,22 @@ public class CaptureCameraController implements Initializable {
         thread.stop();
         imageView.setImage(image);
         ImageProcessing.saveCapturedImage(frame);
-        dialog.setResult(ButtonType.CLOSE);
+        dialog.setResult(ButtonType.YES);
         dialog.close();
         thread.stop();
 
     }
 
+
     @FXML
-    void repeatOnMouseClicked(MouseEvent event) throws InterruptedException {
-
-        thread = new Thread(() -> {
-            while (true) {
-                synchronized (lock) {
-                    video = new VideoCapture(0);
-                    if (video.isOpened()) System.out.println("it works 22");
-                    video.read(frame);
-                    Mat processedFrame = imageProcessing.processFrame(frame);
-                    image = imageProcessing.matToImage(processedFrame);
-                    imageView.setImage(image);
-                }
-            }
-        });
-
-        thread.start();
-
-
+    void CloseButtonOnAction(ActionEvent event) {
+        thread.stop();
+        thread.stop();
+        dialog.setResult(ButtonType.CLOSE);
+        dialog.close();
+        thread.stop();
+        thread.stop();
     }
-
-
-
-
-
-
-
-
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -84,7 +67,6 @@ public class CaptureCameraController implements Initializable {
             while (true) {
                 synchronized (lock) {
                     video = new VideoCapture(CAMERA_IP);
-                    if (video.isOpened()) System.out.println("it works");
                     video.read(frame);
                     Mat processedFrame = imageProcessing.processFrame(frame);
                     image = imageProcessing.matToImage(processedFrame);
