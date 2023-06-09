@@ -4,6 +4,8 @@ import com.wrmanager.wrmanagerfx.entities.Produit;
 import com.wrmanager.wrmanagerfx.entities.Stock;
 
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +22,8 @@ public class StockDAO extends DAORepository<Stock,Long>{
         }
 
     }
+
+
 
 
 
@@ -44,6 +48,22 @@ public class StockDAO extends DAORepository<Stock,Long>{
 
 
     }
+
+    public List<Stock> getWithProductId(Long id)
+    {
+
+        var stocks = new ArrayList<Stock>();
+        Query query = em.createQuery("SELECT c FROM Stock c WHERE c.produit.id =:id");
+        query.setParameter("id", id);
+
+        stocks.addAll(query.getResultList());
+
+        return stocks;
+
+
+
+    }
+
 
     @Override
     public Optional<Stock> getById(Long id) {

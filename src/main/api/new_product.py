@@ -53,7 +53,7 @@ def getting_class_ids_to_output(class_ids_NDD, class_ids_PF):
     return class_ids_to_output_from_NDD, class_ids_to_output_from_PF
 
 
-def segmenting_and_saving(img, masks, class_ids, class_ids_to_output_from_, output_dir=directoryPath):
+def segmenting_and_saving_product(img, masks, class_ids, class_ids_to_output_from_, output_dir=directoryPath):
     def process_segment(mask, class_id):
         if int(class_id.item()) in class_ids_to_output_from_:
             class_name = classes_names[str(int(class_id.item()))]
@@ -239,8 +239,8 @@ def new_product(src):
                         # print(class_ids_to_output_from_PF)
                         # Iterate over segmentation masks and class names
 
-                        segmenting_and_saving(img, masks_NDD, class_ids_NDD, class_ids_to_output_from_NDD)
-                        segmenting_and_saving(img, masks_PF, class_ids_PF, class_ids_to_output_from_PF)
+                        segmenting_and_saving_product(img, masks_NDD, class_ids_NDD, class_ids_to_output_from_NDD)
+                        segmenting_and_saving_product(img, masks_PF, class_ids_PF, class_ids_to_output_from_PF)
 
 
                     else:

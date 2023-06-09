@@ -45,7 +45,7 @@ def getting_class_ids_to_output(class_ids_NDD,class_ids_PF):
 
     return class_ids_to_output_from_NDD , class_ids_to_output_from_PF
 
-def segmenting_and_saving(img, masks, class_ids, class_ids_to_output_from_, output_dir=directoryPath):
+def segmenting_and_saving_vente(img, masks, class_ids, class_ids_to_output_from_, output_dir=directoryPath):
     def process_segment(mask, class_id):
         if int(class_id.item()) in class_ids_to_output_from_:
             class_name = classes_names[str(int(class_id.item()))]
@@ -110,7 +110,6 @@ def  get_product_id_from_segmented_image(vig_color_id):
     except:
         pass
     all_text = name + " " + dos
-    print("the whole text {}".format(all_text))
     try:
         id = fuzzy_best_match_id(all_text,vig_color_id)
     except:
@@ -279,8 +278,8 @@ def vente(src):
 
                         # Iterate over segmentation masks and class names
 
-                        segmenting_and_saving(img, masks_NDD, class_ids_NDD, class_ids_to_output_from_NDD)
-                        segmenting_and_saving(img, masks_PF, class_ids_PF, class_ids_to_output_from_PF)
+                        segmenting_and_saving_vente(img, masks_NDD, class_ids_NDD, class_ids_to_output_from_NDD)
+                        segmenting_and_saving_vente(img, masks_PF, class_ids_PF, class_ids_to_output_from_PF)
 
 
 

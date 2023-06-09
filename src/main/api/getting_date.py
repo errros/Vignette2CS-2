@@ -110,6 +110,11 @@ def get_lot_date():
           if key == "lot":
             #print("value ta3 lot {}".format(lot))
             lot = value
+            # CHANGES !!!!!!!!!!!!!!!!!!!!
+            if lot is not None and len(lot)>0:
+              if lot[0]=='n' :
+                lot = lot[1:]
+
           #print(key + " " + value)
 
   except:
