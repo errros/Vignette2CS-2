@@ -64,12 +64,12 @@
                                           </AnchorPane>
                                           <VBox alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="84.0" spacing="5.0" GridPane.columnIndex="1">
                                              <children>
-                                                <Label styleClass="TopLabelCards" text="Nombre De Fournisseurs">
+                                                <Label styleClass="TopLabelCards" text="Nombre De Produits">
                                                    <VBox.margin>
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="Label1" styleClass="BottomLabelCards" text="800">
+                                                <Label fx:id="Label1" styleClass="BottomLabelCards" text="0">
                                                    <VBox.margin>
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
@@ -113,7 +113,7 @@
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="Label2" styleClass="BottomLabelCards" text="1,200,00 DA">
+                                                <Label fx:id="Label2" styleClass="BottomLabelCards" text="0 DA">
                                                    <VBox.margin>
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
@@ -157,7 +157,7 @@
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="Label3" styleClass="BottomLabelCards" text="coca cola 1L">
+                                                <Label fx:id="Label3" styleClass="BottomLabelCards" text="DESLOR 5MG">
                                                    <VBox.margin>
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
@@ -201,7 +201,7 @@
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
                                                 </Label>
-                                                <Label fx:id="Label4" styleClass="BottomLabelCards" text="Condia 1L">
+                                                <Label fx:id="Label4" styleClass="BottomLabelCards">
                                                    <VBox.margin>
                                                       <Insets left="5.0" />
                                                    </VBox.margin>
@@ -270,34 +270,19 @@
                      <children>
                         <AnchorPane prefHeight="30.0" prefWidth="298.0">
                            <children>
-                              <TextField fx:id="SearchBarTextField" layoutY="6.0" maxHeight="30.0" minHeight="-Infinity" prefHeight="35.0" prefWidth="309.0" promptText="Recherche par nom , codebare ou categorie" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-15.0" AnchorPane.topAnchor="6.0">
+                              <TextField fx:id="SearchBarTextField" maxHeight="30.0" minHeight="-Infinity" prefHeight="40.0" prefWidth="309.0" promptText="Recherche Par Designation " styleClass="search-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="4.0">
                                  <font>
                                     <Font size="14.0" />
                                  </font>
-                                 <effect>
-                                    <DropShadow height="0.0" offsetX="2.0" offsetY="2.0" radius="0.0" width="0.0">
-                                       <color>
-                                          <Color opacity="0.25" />
-                                       </color>
-                                    </DropShadow>
-                                 </effect>
                                  <padding>
                                     <Insets left="25.0" />
                                  </padding>
                               </TextField>
-                              <FontAwesomeIconView fill="#cfcfcf" glyphName="SEARCH" layoutX="10.0" layoutY="26.0" />
+                              <FontAwesomeIconView fill="#cfcfcf" glyphName="SEARCH" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="14.0" />
                            </children>
                         </AnchorPane>
                         <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="159.0" spacing="10.0" GridPane.columnIndex="2" GridPane.hgrow="SOMETIMES" GridPane.vgrow="SOMETIMES">
                            <children>
-                              <MFXButton fx:id="TelechargerButton" buttonType="RAISED" graphicTextGap="7.0" onAction="#TelechargerButtonOnAction" prefHeight="40.0" styleClass="AjouterButton" text="Télécharger">
-                                 <graphic>
-                                    <FontAwesomeIconView fill="WHITE" glyphName="CLOUD_UPLOAD" text="" />
-                                 </graphic>
-                                 <font>
-                                    <Font name="System Bold" size="15.0" />
-                                 </font>
-                              </MFXButton>
                               <MFXButton fx:id="AjouterButton" buttonType="RAISED" graphicTextGap="7.0" onAction="#AjouterButtonOnAction" prefHeight="40.0" styleClass="AjouterButton" text="Ajouter Produit">
                                  <graphic>
                                     <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" />

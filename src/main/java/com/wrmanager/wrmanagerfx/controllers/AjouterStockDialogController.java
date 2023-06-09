@@ -127,7 +127,7 @@ public class AjouterStockDialogController implements Initializable {
             this.dialog.getDialogPane().setEffect(boxBlur);
             var result =  dialog.showAndWait();
 
-            if(result.isPresent() && result.get().equals(ButtonType.CLOSE)){
+            if(result.isPresent() && result.get().equals(ButtonType.YES)){
                 System.out.println("rah dkhal");
                 ExecutorService executor = Executors.newSingleThreadExecutor();
 
