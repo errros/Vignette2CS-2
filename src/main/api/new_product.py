@@ -277,4 +277,3 @@ def new_product(src):
 
     return name,dos,form
 
-

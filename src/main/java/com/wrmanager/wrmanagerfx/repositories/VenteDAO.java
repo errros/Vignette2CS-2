@@ -1,9 +1,12 @@
 package com.wrmanager.wrmanagerfx.repositories;
 
+import com.wrmanager.wrmanagerfx.entities.Stock;
 import com.wrmanager.wrmanagerfx.entities.Vente;
 import com.wrmanager.wrmanagerfx.entities.Vente;
+import com.wrmanager.wrmanagerfx.models.StockDTO;
 
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -39,6 +42,20 @@ public class VenteDAO extends DAORepository<Vente,Long>{
         }
 
 
+    }
+
+    public Stock getStockFromPipeline(StockDTO operation){
+
+       /* String jpqlQuery = "SELECT s FROM Stock s WHERE s.produit.id = :productId AND (s.lot = :lot OR (FUNCTION('MONTH', s.expirationDate) = :month AND FUNCTION('YEAR', s.expirationDate) = :year))";
+
+        Query query = em.createQuery(jpqlQuery);
+        query.setParameter("productId", );
+        query.setParameter("lot", someLot);
+        query.setParameter("month", someMonth);
+        query.setParameter("year", someYear);
+
+        Stock stock = (Stock) query.getSingleResult();*/
+       return null;
     }
 
 

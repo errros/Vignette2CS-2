@@ -64,6 +64,28 @@ public class PipelineRequests {
       return null;
     }
 
+
+
+
+    public static StockDTO venteFromImage(String path) {
+        String url = "http://127.0.0.1:8000/vente";
+        String requestBody = "{ \"path\": \"" + path + "\" }";
+
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            String responseBody = sendPostRequest(httpClient, url, requestBody);
+            //System.out.println("response body " + responseBody);
+            var responseList = parseVenteResponseJson(responseBody);
+            //System.out.println(responseList);
+            System.out.println(responseList);
+            return responseList;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     private static StockDTO parseStockResponseJson(String responseBody) {
 
 
@@ -85,6 +107,49 @@ public class PipelineRequests {
                  ppa = Float.valueOf(ppaString);
 
             }
+
+            if(!dateString.isEmpty()) {
+                 date = Date.valueOf(dateString);
+
+            }
+            if(!productIdString.isEmpty()) {
+                 productId = Long.valueOf(productIdString);
+
+            }
+
+
+
+            var stock = StockDTO.builder().product_id(productId).ppa(ppa).lot(lot).date(date).build();
+
+            System.out.println(stock);
+
+            return stock;
+
+ } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+
+
+    }
+  private static StockDTO parseVenteResponseJson(String responseBody) {
+
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode responseJson = mapper.readTree(responseBody);
+
+            var productIdString= responseJson.get("product_id").asText();
+            var dateString = responseJson.get("date").asText();
+
+
+            Float ppa  = 0.0f;
+            Date date = null;
+            Long productId = 0l;
+            String lot = responseJson.get("lot").asText();
+
 
             if(!dateString.isEmpty()) {
                  date = Date.valueOf(dateString);

@@ -40,18 +40,10 @@ public class CaptureCameraController implements Initializable {
         thread.stop();
         imageView.setImage(image);
         ImageProcessing.saveCapturedImage(frame);
-        dialog.setResult(ButtonType.YES);
+        dialog.setResult(ButtonType.CLOSE);
         dialog.close();
         thread.stop();
 
-    }
-
-
-
-    @FXML
-    void CloseButtonOnAction(ActionEvent event) throws InterruptedException {
-        dialog.setResult(ButtonType.CLOSE);
-        dialog.close();
     }
 
     @FXML

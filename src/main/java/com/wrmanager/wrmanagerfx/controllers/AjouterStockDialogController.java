@@ -98,6 +98,7 @@ public class AjouterStockDialogController implements Initializable {
     @FXML
     private VBox vbox;
 
+    private Produit produit;
 
     @FXML
     void CameraButtonOnAction(ActionEvent event) {
@@ -142,7 +143,7 @@ public class AjouterStockDialogController implements Initializable {
 
 
                     if(id!=0) {
-                        var produit = produitDAO.getById(r.getProduct_id()).get();
+                        produit = produitDAO.getById(r.getProduct_id()).get();
                         designationTfd.setText(produit.getDesignation());
                         formTfd.setText(produit.getForme());
                         dosageTfd.setText(produit.getDosage());
@@ -180,19 +181,19 @@ public class AjouterStockDialogController implements Initializable {
 
 
     private Boolean addStock(){
+
         var designation = designationTfd.getText();
         var dosage = dosageTfd.getText();
         var form = formTfd.getText();
 
-        var ppa = Integer.valueOf(ppaTfd.getText());
+        var ppa = Float.valueOf(ppaTfd.getText());
         var lot = lotTfd.getText();
         var date = Date.valueOf(DatePicker.getCurrentDate());
         var qty = Integer.valueOf(qtyTfd.getText());
         var fourniisseur=fournisseurTfd.getText();
-        Optional<Produit> p = produitDAO.getById(Long.valueOf(2));
 
-        Stock stock = Stock.builder().ppa(ppa).lot(lot).expirationDate(date).qty(qty).fournisseur(fourniisseur).build();
-        stockService.save(p.get(),stock);
+        Stock stock = Stock.builder().ppa(ppa.floatValue()).lot(lot).expirationDate(date).qty(qty).fournisseur(fourniisseur).build();
+        stockService.save(produit,stock);
 
         return true ;
 
@@ -241,7 +242,7 @@ public class AjouterStockDialogController implements Initializable {
         var qty = Integer.valueOf(qtyTfd.getText());
         var fournisseur = fournisseurTfd.getText();
         Optional<Produit> p = produitDAO.getById(Long.valueOf(2));
-        Stock stock = Stock.builder().ppa(ppa).lot(lot).expirationDate(date).qty(qty).fournisseur(fournisseur).produit(getPassedStock().getProduit()).build();
+        Stock stock = Stock.builder().ppa(ppa.floatValue()).lot(lot).expirationDate(date).qty(qty).fournisseur(fournisseur).produit(getPassedStock().getProduit()).build();
 
         stockService.update(stock);
         return true ;

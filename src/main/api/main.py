@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from new_product import new_product
 from stock import get_product_id_date_ppa
-
+from vente import vente
 class ProductRequest(BaseModel):
     path: str
 
@@ -16,6 +16,12 @@ async def get_product(req: ProductRequest):
     name, dos, form = new_product(req.path)
 
     return {"name": name, "dos": dos, "forme": form}
+@app.post("/vente")
+async def get_vente(req: ProductRequest):
+    print(req)
+    id,lot,ddp = vente(req.path)
+
+    return {"product_id": id,"lot":lot, "date": ddp}
 
 @app.post("/stock")
 async def get_stock(req: ProductRequest):
