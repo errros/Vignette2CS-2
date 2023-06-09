@@ -1,4 +1,10 @@
-from fuzzywuzzy import fuzz
+import json
+import time
+import cv2  # opencv
+import os  # folder directory navigation
+import concurrent.futures
+
+from fuzzywuzzy import fuzz,process
 from getting_ppa_value import get_ppa_value
 import getting_date
 from ultralytics import YOLO
@@ -10,8 +16,11 @@ import shutil
 from paddleocr import PaddleOCR
 import concurrent.futures
 import threading
+
+
 directoryPath = "./file_with_segmentations"
 
+start_all = time.time()
 ocr_model = PaddleOCR(lang='fr', use_angle_cls=True, show_log=False)
 
 model = YOLO('best_ever.pt')
@@ -19,9 +28,12 @@ model_champs_NAME_DATE_DOS = YOLO('best_train6.pt')
 model_champs_PPA_FORM = YOLO('best_train4.pt')
 
 
+
 classes_names={'0':'Forme' , '1':'Dossage' , '2': 'PPA' , '3' : 'Date' , '4': 'Name'}
 
 vignette_color ={'0':'Green' , '1':'White' , '2': 'Red'}
+
+
 
 input_size = (640, 640)
 
@@ -125,8 +137,6 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
 
                 cv2.imwrite(f'./{directoryPath}/Dossage.png', new_dossage)
 
-
-
             if class_name == 'PPA':
                     # Convert mask to boolean mask
 
@@ -171,6 +181,9 @@ def drop_duplicants(class_tensor,conf_tensor):
     return new_pos
 
 
+json_file = "new_json.json"
+
+
 def  get_product_id_from_segmented_image(vig_color_id):
 
     id = 0
@@ -185,39 +198,44 @@ def  get_product_id_from_segmented_image(vig_color_id):
         dos = "".join([res[1][0] for res in result[0]])
     except:
         pass
-    all_text = name + " " + dos
-    print("the whole text {}".format(all_text))
+    # all_text = name + " " + dos
+
+    print("name {}".format(name))
+    print("dossage {}".format(dos))
+
     try:
-        id = fuzzy_best_match_id(all_text,vig_color_id)
+        # id = fuzzy_best_match_id(all_text,vig_color_id)
+        id = fuzzy_best_match_id(name , dos, vig_color_id)
+
+        if id is None :
+            id = 0
     except:
         pass
     return int(id)
 
 
+def fuzzy_best_match_id(search_medicine_name, search_medicine_dosage,vig_class_id):
+    search_medicine_name = search_medicine_name.upper()
+    search_medicine_dosage = search_medicine_dosage.upper()
 
-def fuzzy_best_match_id(text , vig_class_id):
     meds_file_path = ""
     if vig_class_id == 0:
-        meds_file_path = "green_meds.txt"
+        meds_file_path = "json_file.json"
     elif vig_class_id == 2:
         meds_file_path = "red_meds.TXT"
+    with open(json_file, 'r') as input_file:
+        data = json.load(input_file)
 
-    best_match_id = None
-    best_match_ratio = 0
+    best_match_name, _ = process.extractOne(search_medicine_name, data.keys())
+    dosages = data[best_match_name]
+    best_match_dosage, _ = process.extractOne(search_medicine_dosage, [dosage["dosage"] for dosage in dosages])
 
-    text = text.upper()
-    print(text)
-    with open(meds_file_path, 'r') as file:
-        for line in file:
-            parts = line.strip().split("###")
-            if len(parts) == 2:
-                medicine_id, medicine_name = parts[0], parts[1]
-                ratio = fuzz.ratio(text, medicine_name)
-                if ratio > best_match_ratio:
-                    best_match_id = medicine_id
-                    best_match_ratio = ratio
+    for dosage in dosages:
+        if dosage["dosage"] == best_match_dosage:
+            return dosage["id"]
 
-    return best_match_id
+    return None
+
 
 
 
@@ -253,10 +271,12 @@ def get_product_id_date_ppa(src):
     else:
         shutil.rmtree(directoryPath)
         os.mkdir(directoryPath)
-
+    start = time.time()
     # Pass the frame to the YOLO model for prediction
-    results = model.predict(source=src,conf=0.7,show=False, save_crop=False , save = False,retina_masks=True , verbose=False)
+    print("shit took {}".format(time.time() - start_all))
 
+    results = model.predict(source=src,conf=0.7,show=False, save_crop=False , save = False,retina_masks=True , verbose=False)
+    print("model 1 took {}".format(time.time() - start))
     #THE CODITION IS FOR IF HE IS DETECTING A VIGNETTE
     if (len(results[0].boxes.cls)>0):
         color_id  =results[0].boxes.cls[0]
