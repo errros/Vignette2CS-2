@@ -17,9 +17,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import uk.org.okapibarcode.backend.Ean;
 import uk.org.okapibarcode.backend.Symbol;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Date;
 import java.util.Comparator;
 import java.util.List;
@@ -28,6 +29,8 @@ import java.util.UUID;
 import static com.wrmanager.wrmanagerfx.Constants.*;
 public class ProduitService {
 
+
+    public final String filePath = "src/main/api/red_meds.txt";
 
     public String generateEAN13(){
         String s = String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16)).substring(0,12);
@@ -59,15 +62,101 @@ public class ProduitService {
 return         (char) (cdigit + '0');
     }
 
-     public Produit save (Produit produit , Categorie categorie){
+    private void updateFileInsert(Produit produit) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            // Append the new data to the file
+            String newData = produit.getId() + "###" + produit.getDesignation().toUpperCase() + " " + produit.getDosage().toUpperCase();
+            writer.append(newData);
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception accordingly
+        }
+    }
 
-        produit.addCategorie(categorie);
 
-         var ret = produitDAO.save(produit);
-         produitsList.add(ret);
-         sortRowsByLastTimeAdded();
+    private void updateFile( Produit produit) {
 
-         return ret;
+        try {
+            File file = new File(filePath);
+
+            // Read the contents of the file
+            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+
+            // Find the line containing produit.getId()
+            String lineToReplace = produit.getId() + "###";
+            int startIndex = content.indexOf(lineToReplace);
+            int endIndex = content.indexOf(System.lineSeparator(), startIndex);
+            if (endIndex == -1) {
+                endIndex = content.length();
+            }
+
+            // Update the line with ret.designation###ret.dosage
+            String updatedLine = produit.getId() + "###"+  produit.getDesignation().toUpperCase() + " " + produit.getDosage().toUpperCase();
+            String updatedContent = content.substring(0, startIndex) + updatedLine + content.substring(endIndex);
+
+            // Write the updated content back to the file
+            Files.write(Paths.get(file.toURI()), updatedContent.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception accordingly
+        }
+
+
+    }
+
+
+
+    public void deleteLineById(String id) {
+        try {
+            File file = new File(filePath);
+            File tempFile = new File(file.getAbsolutePath() + ".tmp");
+
+            // Create a temporary file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
+
+            // Read the contents of the file
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            String currentLine;
+
+            // Copy lines to the temporary file, excluding the line with the specified id
+            while ((currentLine = reader.readLine()) != null) {
+                if (!currentLine.startsWith(id + "###")) {
+                    writer.write(currentLine);
+                    writer.newLine();
+                }
+            }
+
+            // Close the readers and writers
+            reader.close();
+            writer.close();
+
+            // Replace the original file with the temporary file
+            if (file.delete()) {
+                tempFile.renameTo(file);
+            } else {
+                throw new IOException("Failed to delete the original file: " + filePath);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Handle the exception accordingly
+        }
+    }
+
+
+    public Produit save (Produit produit , Categorie categorie){
+
+        if(categorie.getId().equals(100l)) {
+            produit.addCategorie(categorie);
+
+            var ret = produitDAO.save(produit);
+            produitsList.add(ret);
+            sortRowsByLastTimeAdded();
+            updateFileInsert(ret);
+
+            return ret;
+        }
+        return null;
 
 
 
@@ -76,16 +165,26 @@ return         (char) (cdigit + '0');
 
      //test
      public Produit update (Produit produit , Categorie categorie){
-         if(!produit.getCategorie().equals(categorie)) {
-            produit.removeCategorie(produit.getCategorie());
-            produit.addCategorie(categorie);
-         }
 
-       var ret=   produitDAO.update(produit);
-       produitsViewController.getProduitsTable().refresh();
-       stockViewController.getStocksTable().refresh();
+      if(categorie.getId() == 100l) {
+          if (!produit.getCategorie().equals(categorie)) {
+              produit.removeCategorie(produit.getCategorie());
+              produit.addCategorie(categorie);
+          }
 
-       return ret;
+          var ret = produitDAO.update(produit);
+
+
+
+          produitsViewController.getProduitsTable().refresh();
+          stockViewController.getStocksTable().refresh();
+
+          updateFile(ret);
+
+          return ret;
+
+      }
+      return null;
      }
 
 
@@ -98,9 +197,13 @@ return         (char) (cdigit + '0');
 
      public void delete(Produit produit){
 
-         produitDAO.deleteById(produit.getId());
-         produitsList.remove(produit);
-         sortRowsByLastTimeAdded();
+        if(produit.getCategorie().getId() == 100l) {
+            deleteLineById(produit.getId().toString());
+
+            produitDAO.deleteById(produit.getId());
+            produitsList.remove(produit);
+            sortRowsByLastTimeAdded();
+        }
 
      }
 

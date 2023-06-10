@@ -20,7 +20,6 @@ public class Stock {
 
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
 

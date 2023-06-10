@@ -477,14 +477,10 @@ def  get_product_id_from_segmented_image(vig_color_id):
         dos = "".join([res[1][0] for res in result[0]])
     except:
         pass
-    # all_text = name + " " + dos
-
-    print("name {}".format(name))
-    print("dossage {}".format(dos))
+    all_text = name + " " + dos
 
     try:
-        # id = fuzzy_best_match_id(all_text,vig_color_id)
-        id = fuzzy_best_match_id(name , dos, vig_color_id)
+        id = fuzzy_best_match_id(all_text,vig_color_id)
 
         if id is None :
             id = 0
@@ -492,36 +488,35 @@ def  get_product_id_from_segmented_image(vig_color_id):
         pass
     return int(id)
 
-
-def fuzzy_best_match_id(search_medicine_name, search_medicine_dosage,vig_class_id):
-    search_medicine_name = search_medicine_name.upper()
-    search_medicine_dosage = search_medicine_dosage.upper()
+def fuzzy_best_match_id(text , vig_class_id):
 
     meds_file_path = ""
     if vig_class_id == 0:
-        meds_file_path = json_file
+        meds_file_path = "green_meds.txt"
     elif vig_class_id == 2:
         meds_file_path = "red_meds.TXT"
 
-    with open(json_file, 'r') as input_file:
-        data = json.load(input_file)
+    best_match_id = None
+    best_match_ratio = 0
 
-    best_match_name, _ = process.extractOne(search_medicine_name, data.keys())
-    dosages = data[best_match_name]
-    best_match_dosage, _ = process.extractOne(search_medicine_dosage, [dosage["dosage"] for dosage in dosages])
+    with open(meds_file_path, 'r') as file:
+        for line in file:
+            parts = line.strip().split("###")
+            if len(parts) == 2:
+                medicine_id, medicine_name = parts[0], parts[1]
+                ratio = fuzz.ratio(text, medicine_name)
+                if ratio > best_match_ratio:
+                    best_match_id = medicine_id
+                    best_match_ratio = ratio
 
-    for dosage in dosages:
-        if dosage["dosage"] == best_match_dosage:
-            return dosage["id"]
+    return best_match_id
 
-    return None
 
 
 
 
 
 def get_product_id_date_ppa(src):
-
 
     img = cv2.imread(src)
 

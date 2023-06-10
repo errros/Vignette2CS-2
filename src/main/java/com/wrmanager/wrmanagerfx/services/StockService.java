@@ -35,12 +35,12 @@ public class StockService {
 
         var ret=   stockDAO.update(stock);
 
+        stockList.remove(ret);
+        stockList.add(ret);
 
-        // ****
-             // Refresh Stock Table
-        //****
-        //produitsViewController.getProduitsTable().refresh();
-        //stockViewController.getStockTable().refresh();
+
+        produitsViewController.getProduitsTable().refresh();
+        stockViewController.getStocksTable().refresh();
         return ret;
     }
 

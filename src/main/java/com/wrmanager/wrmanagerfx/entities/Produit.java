@@ -29,7 +29,11 @@ public class Produit {
 
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "your_table_sequence")
+    @TableGenerator(name = "your_table_sequence", table = "sequence_table",
+            pkColumnName = "sequence_name", valueColumnName = "sequence_value",
+            pkColumnValue = "your_table_sequence", initialValue = 9999)
+
     private Long id;
 
     @Basic(optional = false)

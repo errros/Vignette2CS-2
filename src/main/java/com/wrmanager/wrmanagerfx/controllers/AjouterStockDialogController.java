@@ -46,7 +46,7 @@ public class AjouterStockDialogController implements Initializable {
 
 
     private Dialog<ButtonType> dialog;
-    //passed from the the first
+    //passed from the first
     private Stock passedStock;
 
 
