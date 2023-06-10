@@ -28,7 +28,7 @@ directoryPath = "./file_with_segmentations"
 
 json_file = "new_json.json"
 
-ocr_model = PaddleOCR(lang='fr', use_angle_cls=True, show_log=False)
+ocr_model = PaddleOCR(det_db_score_mode='slow',lang='fr', use_angle_cls=True, show_log=False)
 
 model = YOLO('best_ever.pt')
 model_champs_NAME_DATE_DOS = YOLO('best_train6.pt')
@@ -127,7 +127,7 @@ def get_lot_date():
         result = ocr_model.ocr("./file_with_segmentations/Date.png", cls=True)
 
         date = [res[1][0] for res in result[0]]
-        # print(date)
+        print("date bla cases : " , date)
 
         for d in date:
             if getting_date(d) is None:
@@ -152,7 +152,7 @@ def get_lot_date():
                         if lot[0] == 'n':
                             lot = lot[1:]
 
-                # print(key + " " + value)
+                print(key + " " + value)
 
     except:
         pass
@@ -322,6 +322,7 @@ def get_ppa_value():
     try:
         result = ocr_model.ocr("./file_with_segmentations/PPA.png", cls=True)
         ppa = [res[1][0] for res in result[0]]
+        print("ppa bla cases : " , ppa)
         ppa_value = getting_ppa_value_from_cases(ppa)
         # ensure french language numbers taken in consideration
         ppa_value = ppa_value.replace(",", ".")
@@ -377,7 +378,6 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
             # if class_name == 'Date' or class_name ==  'Name' or class_name == 'Dossage' :
             #  Check if class name is 'Date'
             if class_name == 'Date':
-                print("inside date")
                 # Convert mask to boolean mask
                 bool_mask_date = mask.to(torch.bool).numpy()
 
@@ -389,11 +389,9 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
 
                 cv2.imwrite(f'./{directoryPath}/Date.png', new_date)
 
-                print("saved date")
                 # cv2.imwrite(f'./{directoryPath}/without_Date.jpg', img_without_date_ppa)
             if class_name == 'Name':
                 # Convert mask to boolean mask
-                print("inside name")
                 bool_mask_name = mask.to(torch.bool).numpy()
 
                 # Resize boolean mask to match img shape
@@ -407,7 +405,6 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
             if class_name == 'Dossage':
                 # Convert mask to boolean mask
 
-                print("inside dos")
                 bool_mask_dossage = mask.to(torch.bool).numpy()
 
                 # Resize boolean mask to match img shape
@@ -421,7 +418,6 @@ def segmenting_and_saving(img,masks,class_ids ,class_ids_to_output_from_):
             if class_name == 'PPA':
                     # Convert mask to boolean mask
 
-                    print("inside ppa")
                     bool_mask_ppa = mask.to(torch.bool).numpy()
 
                     # Resize boolean mask to match img shape
@@ -477,10 +473,10 @@ def  get_product_id_from_segmented_image(vig_color_id):
         dos = "".join([res[1][0] for res in result[0]])
     except:
         pass
-    all_text = name + " " + dos
-
+    print("name " , name)
+    print("dos ",dos)
     try:
-        id = fuzzy_best_match_id(all_text,vig_color_id)
+        id = fuzzy_best_match_id(name,dos,vig_color_id)
 
         if id is None :
             id = 0
@@ -488,28 +484,71 @@ def  get_product_id_from_segmented_image(vig_color_id):
         pass
     return int(id)
 
-def fuzzy_best_match_id(text , vig_class_id):
+# def fuzzy_best_match_id(text , vig_class_id):
+#
+#     meds_file_path = ""
+#     if vig_class_id == 0:
+#         meds_file_path = "green_meds.txt"
+#     elif vig_class_id == 2:
+#         print("dkhal l had fichier")
+#         meds_file_path = "red_meds.TXT"
+#
+#     best_match_id = None
+#     best_match_ratio = 0
+#
+#     with open(meds_file_path, 'r') as file:
+#         for line in file:
+#             parts = line.strip().split("###")
+#             if len(parts) == 2:
+#                 medicine_id, medicine_name = parts[0], parts[1]
+#                 ratio = fuzz.ratio(text, medicine_name)
+#                 if ratio > best_match_ratio:
+#                     best_match_id = medicine_id
+#                     best_match_ratio = ratio
+#
+#     print("rana nemsho")
+#     return best_match_id
+
+def fuzzy_best_match_id(search_medicine_name, search_medicine_dosage,vig_class_id):
+    search_medicine_name = search_medicine_name.upper()
+    search_medicine_dosage = search_medicine_dosage.upper()
 
     meds_file_path = ""
     if vig_class_id == 0:
-        meds_file_path = "green_meds.txt"
+        meds_file_path = json_file
+        with open(json_file, 'r') as input_file:
+            data = json.load(input_file)
+
+        best_match_name, _ = process.extractOne(search_medicine_name, data.keys())
+        dosages = data[best_match_name]
+        best_match_dosage, _ = process.extractOne(search_medicine_dosage, [dosage["dosage"] for dosage in dosages])
+
+        for dosage in dosages:
+            if dosage["dosage"] == best_match_dosage:
+                return dosage["id"]
+
+        return None
+
+
     elif vig_class_id == 2:
         meds_file_path = "red_meds.TXT"
+        best_match_id = None
+        best_match_ratio = 0
+        text = search_medicine_name + " " + search_medicine_dosage
 
-    best_match_id = None
-    best_match_ratio = 0
+        with open(meds_file_path, 'r') as file:
+            for line in file:
+                parts = line.strip().split("###")
+                if len(parts) == 2:
+                    medicine_id, medicine_name = parts[0], parts[1]
+                    ratio = fuzz.ratio(text, medicine_name)
+                    if ratio > best_match_ratio:
+                        best_match_id = medicine_id
+                        best_match_ratio = ratio
 
-    with open(meds_file_path, 'r') as file:
-        for line in file:
-            parts = line.strip().split("###")
-            if len(parts) == 2:
-                medicine_id, medicine_name = parts[0], parts[1]
-                ratio = fuzz.ratio(text, medicine_name)
-                if ratio > best_match_ratio:
-                    best_match_id = medicine_id
-                    best_match_ratio = ratio
 
-    return best_match_id
+        return best_match_id
+
 
 
 
@@ -551,6 +590,7 @@ def get_product_id_date_ppa(src):
     #THE CODITION IS FOR IF HE IS DETECTING A VIGNETTE
     if (len(results[0].boxes.cls)>0):
         color_id  =results[0].boxes.cls[0]
+        print("color id is {}".format(color_id))
         #THE CODITION IS FOR IF HE IS DETECTING A Green or Red VIGNETTE
         if (color_id==0) or (color_id==2):
             #color contains Green or Red
@@ -578,14 +618,14 @@ def get_product_id_date_ppa(src):
                         results_NDD = model_champs_NAME_DATE_DOS.predict(source=output_path, show=False, save=False,
                                                                          show_labels=False, show_conf=False, conf=0.1,
                                                                          save_txt=False, save_crop=False,
-                                                                         retina_masks=True,
+                                                                         retina_masks=False,
                                                                          save_conf=True, verbose=False)
 
                     def run_model_champs_PPA_FORM():
                         global results_PF
                         results_PF = model_champs_PPA_FORM.predict(source=output_path, show=False, save=False,
                                                                    show_labels=False, show_conf=False, conf=0.1,
-                                                                   save_txt=False, save_crop=False, retina_masks=True,
+                                                                   save_txt=False, save_crop=False, retina_masks=False,
                                                                    save_conf=True, verbose=False)
 
                     # Create threads

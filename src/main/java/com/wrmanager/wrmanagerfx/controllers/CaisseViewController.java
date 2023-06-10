@@ -388,6 +388,7 @@ public class CaisseViewController implements Initializable {
             if (stock.isPresent()){
                 System.out.println("yaaaaaaaaaaaaw raha mchat"+stock.get().getProduit().getDesignation());
                 try {
+                    System.out.println("dkhal try add product");
                     addProduitToCurrentCaisse(stock.get());
                     setupTotaleTF();
                 } catch (IOException e) {
@@ -430,7 +431,9 @@ public class CaisseViewController implements Initializable {
 
 
     public void addProduitToCurrentCaisse(Stock stock) throws IOException {
-        var s=ProduitsTable.getItems().stream().collect(Collectors.toList()).indexOf(stock);
+
+        var s= ProduitsTable.getItems().stream().collect(Collectors.toList()).indexOf(stock);
+
         System.out.println("this is s "+s);
         if (s != -1 )
         {
@@ -440,9 +443,17 @@ public class CaisseViewController implements Initializable {
            ProduitsTable.getItems().add(stockToModifie);
 
         }
-        else {stock.setQtyEnCaisse(stock.getQtyEnCaisse()+1);
-            ProduitsTable.getItems().add(stock);}
+        else {
+            stock.setQtyEnCaisse(1);
+            ProduitsTable.getItems().add(stock);
+            System.out.println("TABLE ITEMS : " + ProduitsTable.getItems());
+
+        }
+
         ProduitsTable.refresh();
+
+
+
     }
 
 
