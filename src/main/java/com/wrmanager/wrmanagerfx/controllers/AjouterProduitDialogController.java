@@ -8,6 +8,7 @@ import com.wrmanager.wrmanagerfx.requests.PipelineRequests;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXCheckbox;
 
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -20,6 +21,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.BoxBlur;
@@ -322,14 +324,24 @@ public class AjouterProduitDialogController implements Initializable {
                     var form = r.get(2);
 
 
-                    System.out.println("recupura");
+                    System.out.println("form"+form);
+                    System.out.println("dos"+dos);
                     DesignationTfd.setText(name);
                     DosageTfd.setText(dos);
                     FormTfd.setText(form);
 
+                    Platform.runLater(()->{
+                        if(name.equals("")) DesignationTfd.requestFocus();
+                        else if (dos.equals(""))DosageTfd.requestFocus();
+                        else if (form.equals(""))FormTfd.requestFocus();
+
+                    });
+
+
 
 
                 });
+
 
                 // Other code or tasks to be executed concurrently
 

@@ -10,6 +10,7 @@ import com.wrmanager.wrmanagerfx.requests.PipelineRequests;
 import com.wrmanager.wrmanagerfx.services.ProduitService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -142,15 +143,23 @@ public class AjouterStockDialogController implements Initializable {
 
                     var id = r.getProduct_id();
 
-
                     if(id!=0) {
                         produit = produitDAO.getById(r.getProduct_id()).get();
                         designationTfd.setText(produit.getDesignation());
                         formTfd.setText(produit.getForme());
                         dosageTfd.setText(produit.getDosage());
+                        Platform.runLater(()-> DatePicker.setValue(new Date(r.getDate().getTime()).toLocalDate()));
+
+                        Platform.runLater(()->{
+                            if(r.getPpa().equals("")) ppaTfd.requestFocus();
+                            else if (r.getLot().equals(""))lotTfd.requestFocus();
+                            else qtyTfd.requestFocus();
+
+                        });
+
                     }
 
-                    DatePicker.setValue(r.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+
 
 
 
@@ -189,7 +198,7 @@ public class AjouterStockDialogController implements Initializable {
 
         var ppa = Float.valueOf(ppaTfd.getText());
         var lot = lotTfd.getText();
-        var date = Date.valueOf(DatePicker.getCurrentDate());
+        var date = Date.valueOf(DatePicker.getValue());
         var qty = Integer.valueOf(qtyTfd.getText());
         var fourniisseur=fournisseurTfd.getText();
 
@@ -239,7 +248,7 @@ public class AjouterStockDialogController implements Initializable {
 
         var ppa = Float.valueOf(ppaTfd.getText());
         var lot = lotTfd.getText();
-        var date = Date.valueOf(DatePicker.getCurrentDate());
+        var date = Date.valueOf(DatePicker.getValue());
         var qty = Integer.valueOf(qtyTfd.getText());
         var fournisseur = fournisseurTfd.getText();
         Optional<Produit> p = produitDAO.getById(Long.valueOf(2));

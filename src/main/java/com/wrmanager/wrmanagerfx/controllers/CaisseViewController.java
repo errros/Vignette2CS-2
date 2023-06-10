@@ -309,6 +309,8 @@ public class CaisseViewController implements Initializable {
 
     @FXML
     void AnnulerBtnOnAction(ActionEvent event) {
+        ProduitsTable.getItems().clear();
+        ProduitsTable.refresh();
 
     }
 
