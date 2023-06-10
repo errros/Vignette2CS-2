@@ -21,9 +21,9 @@ public class ImageProcessing {
 
 
     public Mat processFrame(Mat img) {
-        Imgproc.resize(img, img, new Size(700, 480));
+        Imgproc.resize(img, img, new Size(640, 640));
         MatOfByte m = new MatOfByte();
-        Imgcodecs.imencode(".jpg", img, m);
+        Imgcodecs.imencode(".png", img, m);
         byte[] byteArray = m.toArray();
         BufferedImage bufImage = null;
         try {
@@ -84,7 +84,7 @@ public class ImageProcessing {
     public static Path saveCapturedImage(Mat img) {
         Imgproc.resize(img, img, new Size(700, 480));
         MatOfByte m = new MatOfByte();
-        Imgcodecs.imencode(".jpg", img, m);
+        Imgcodecs.imencode(".png", img, m);
         byte[] byteArray = m.toArray();
         Path filePath = null;
         try {
@@ -92,7 +92,7 @@ public class ImageProcessing {
             String workingDir = System.getProperty("user.dir");
 
             // Define the relative path and filename
-            String relativePath = "src/main/api/captured.jpg"; // Modify the path and filename as needed
+            String relativePath = "src/main/api/captured.png"; // Modify the path and filename as needed
 
             // Create the absolute path
             filePath = Path.of(workingDir, relativePath);

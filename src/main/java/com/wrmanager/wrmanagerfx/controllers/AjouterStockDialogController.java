@@ -135,7 +135,7 @@ public class AjouterStockDialogController implements Initializable {
 
                 executor.submit(() -> {
                     System.out.println("rah baghi yexcuter");
-                    var r = PipelineRequests.getStockFromImage("./captured.jpg");
+                    var r = PipelineRequests.getStockFromImage("./captured.png");
                     System.out.println("r here : " + r);
                     ppaTfd.setText(r.getPpa().toString());
 

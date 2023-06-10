@@ -318,7 +318,7 @@ public class AjouterProduitDialogController implements Initializable {
 
                 executor.submit(() -> {
                     System.out.println("rah baghi yexcuter");
-                    var r = PipelineRequests.getProductFromImage("./captured.jpg");
+                    var r = PipelineRequests.getProductFromImage("./captured.png");
                     var name = r.get(0);
                     var dos = r.get(1);
                     var form = r.get(2);

@@ -324,6 +324,7 @@ def get_ppa_value():
         ppa = [res[1][0] for res in result[0]]
         print("ppa bla cases : " , ppa)
         ppa_value = getting_ppa_value_from_cases(ppa)
+        print("ppa value from fct : " , ppa_value)
         # ensure french language numbers taken in consideration
         ppa_value = ppa_value.replace(",", ".")
         if check_contain_only_num(ppa_value):
@@ -585,7 +586,7 @@ def get_product_id_date_ppa(src):
     start = time.time()
     # Pass the frame to the YOLO model for prediction
 
-    results = model.predict(source=src,conf=0.7,show=False, save_crop=False , save = False,retina_masks=True , verbose=False)
+    results = model.predict(source=src,conf=0.6,show=False, save_crop=False , save = False,retina_masks=True , verbose=False)
     print("model 1 took {}".format(time.time() - start))
     #THE CODITION IS FOR IF HE IS DETECTING A VIGNETTE
     if (len(results[0].boxes.cls)>0):
@@ -618,14 +619,14 @@ def get_product_id_date_ppa(src):
                         results_NDD = model_champs_NAME_DATE_DOS.predict(source=output_path, show=False, save=False,
                                                                          show_labels=False, show_conf=False, conf=0.1,
                                                                          save_txt=False, save_crop=False,
-                                                                         retina_masks=False,
+                                                                         retina_masks=True,
                                                                          save_conf=True, verbose=False)
 
                     def run_model_champs_PPA_FORM():
                         global results_PF
                         results_PF = model_champs_PPA_FORM.predict(source=output_path, show=False, save=False,
                                                                    show_labels=False, show_conf=False, conf=0.1,
-                                                                   save_txt=False, save_crop=False, retina_masks=False,
+                                                                   save_txt=False, save_crop=False, retina_masks=True,
                                                                    save_conf=True, verbose=False)
 
                     # Create threads
